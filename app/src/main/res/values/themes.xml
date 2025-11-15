@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Trainly" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Material3.AutoCompleteTextView</item>
+        <item name="colorPrimary">@color/primary_orange</item>
+        <item name="colorPrimaryVariant">@color/primary_orange_dark</item>
+        <item name="colorOnPrimary">@color/background_dark</item>
+        <item name="colorAccent">@color/accent_orange</item>
+    </style>
+
+    <style name="Theme.Trainly" parent="Base.Theme.Trainly" />
+</resources>

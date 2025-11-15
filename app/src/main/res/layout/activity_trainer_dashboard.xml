@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_dark"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/tvTrainerDashboardTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/trainer_dashboard_title"
+        android:textColor="@color/text_primary"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <!-- Create Workout Plan -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardCreatePlan"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginBottom="12dp"
+        app:cardBackgroundColor="@color/card_dark"
+        app:cardCornerRadius="16dp">
+
+        <TextView
+            android:id="@+id/tvCreatePlan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="@string/trainer_create_plan"
+            android:textColor="@color/primary_orange"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Assign Workout -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardAssignWorkout"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginBottom="12dp"
+        app:cardBackgroundColor="@color/card_dark"
+        app:cardCornerRadius="16dp">
+
+        <TextView
+            android:id="@+id/tvAssignWorkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="@string/trainer_assign_workout"
+            android:textColor="@color/primary_orange"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- View Trainee Progress -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewProgress"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginBottom="12dp"
+        app:cardBackgroundColor="@color/card_dark"
+        app:cardCornerRadius="16dp">
+
+        <TextView
+            android:id="@+id/tvViewProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="@string/trainer_view_progress"
+            android:textColor="@color/primary_orange"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- Send Reminder -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardSendReminder"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        app:cardBackgroundColor="@color/card_dark"
+        app:cardCornerRadius="16dp">
+
+        <TextView
+            android:id="@+id/tvSendReminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="@string/trainer_send_reminder"
+            android:textColor="@color/primary_orange"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

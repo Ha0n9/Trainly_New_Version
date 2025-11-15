@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="trainee_list">
+        <item>Alex</item>
+        <item>Maria</item>
+        <item>John</item>
+    </string-array>
+
+    <string-array name="plan_list">
+        <item>Push Day</item>
+        <item>Leg Day</item>
+        <item>Pull Day</item>
+    </string-array>
+</resources>

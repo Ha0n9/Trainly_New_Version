@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.trainly">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Trainly"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Trainly">
+
+        <activity android:name=".ClientWorkoutsActivity" android:exported="false" />
+        <activity android:name=".ForgotPasswordActivity" android:exported="false" />
+        <activity android:name=".SignupActivity" android:exported="false" />
+
+        <!-- SPLASH (LAUNCHER) -->
+        <activity android:name=".SplashActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!-- AUTH -->
+        <activity android:name=".LoginActivity" />
+
+        <!-- CLIENT MODULE -->
+        <activity android:name=".ClientProfileActivity" />
+        <activity android:name=".ClientProgressActivity" />
+        <activity android:name=".TrackMealsActivity" />
+        <activity android:name=".WorkoutDetailsActivity" />
+        <activity android:name=".ExerciseListActivity" />
+        <activity android:name=".StartWorkoutActivity" />
+        <activity android:name=".WorkoutHistoryActivity" />
+
+        <!-- CLIENT PROFILE SETTINGS -->
+        <activity android:name=".EditClientProfileActivity" />
+        <activity android:name=".ChangePasswordActivity" />
+
+        <!-- TRAINER MODULE -->
+        <activity android:name=".TrainerDashboardActivity" />
+        <activity android:name=".CreateWorkoutPlanActivity" />
+        <activity android:name=".AssignWorkoutActivity" />
+        <activity android:name=".TrainerProgressViewActivity" />
+        <activity android:name=".TrainerReminderActivity" />
+        <activity android:name=".AddExerciseActivity" />
+    </application>
+
+</manifest>

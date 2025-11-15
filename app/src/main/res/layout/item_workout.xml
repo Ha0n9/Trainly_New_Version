@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="14dp"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/card_dark"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- WORKOUT TITLE -->
+        <TextView
+            android:id="@+id/tvWorkoutTitle"
+            android:text="Push Day"
+            android:textColor="@color/primary_orange"
+            android:textStyle="bold"
+            android:letterSpacing="0.02"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <!-- SUBTITLE -->
+        <TextView
+            android:id="@+id/tvWorkoutSubtitle"
+            android:text="Chest • Triceps"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <!-- COMPLETED CHECKBOX -->
+        <CheckBox
+            android:id="@+id/cbWorkoutDone"
+            android:text="Completed"
+            android:textColor="@color/primary_orange"
+            android:buttonTint="@color/primary_orange"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

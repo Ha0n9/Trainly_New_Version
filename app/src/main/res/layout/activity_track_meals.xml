@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvMealsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="@string/meals_title"
+            android:textColor="@color/text_primary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <!-- Meal name -->
+        <EditText
+            android:id="@+id/etMealName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/card_dark"
+            android:hint="@string/meals_name_hint"
+            android:padding="12dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary" />
+
+        <!-- Calories -->
+        <EditText
+            android:id="@+id/etCalories"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/card_dark"
+            android:hint="@string/meals_calories_hint"
+            android:inputType="number"
+            android:padding="12dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary" />
+
+        <!-- Add meal button -->
+        <Button
+            android:id="@+id/btnAddMeal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/primary_orange"
+            android:text="@string/meals_add_btn"
+            android:textColor="@color/background_dark" />
+
+        <!-- List title -->
+        <TextView
+            android:id="@+id/tvMealsTodayTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/meals_today_title"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Meal list -->
+        <LinearLayout
+            android:id="@+id/mealList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical" />
+
+    </LinearLayout>
+
+</ScrollView>

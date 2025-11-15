@@ -1,0 +1,136 @@
+<resources>
+
+    <!-- APP -->
+    <string name="app_name">Trainly</string>
+
+    <!-- Splash -->
+    <string name="splash_title">TRAINLY</string>
+    <string name="splash_logo_desc">Trainly logo</string>
+    <string name="splash_tag">Your fitness journey starts here</string>
+
+
+    <!-- Login screen -->
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_login">Log In</string>
+    <string name="btn_forgot_password">Forgot Password?</string>
+    <string name="txt_no_account">Don\'t have an account?</string>
+    <string name="btn_signup_redirect">Sign Up</string>
+
+    <!-- Sign Up -->
+    <string name="signup_title">Create Account</string>
+    <string name="signup_fullname">Full Name</string>
+    <string name="signup_email">Email</string>
+    <string name="signup_password">Password</string>
+    <string name="signup_confirm_password">Confirm Password</string>
+    <string name="signup_btn">Sign Up</string>
+
+
+    <!-- Home Screen -->
+    <string name="home_greeting">Hi, Alex</string>
+    <string name="home_card_workouts">Today\'s Workout</string>
+    <string name="home_card_progress">Progress</string>
+    <string name="home_card_meals">Meals</string>
+
+    <!-- Forgot Password -->
+    <string name="forgot_password_title">Forgot Password</string>
+    <string name="forgot_email_hint">Your email</string>
+    <string name="forgot_reset_btn">Reset Password</string>
+
+
+    <!-- Client Profile -->
+    <string name="label_hi_user">Hi, User</string>
+    <string name="card_today_workout">Today\'s Workout</string>
+    <string name="card_progress">Progress</string>
+    <string name="card_meals">Meals</string>
+
+    <!-- Client Workouts Screen -->
+    <string name="workouts_title">Your Workouts</string>
+
+    <!-- Workout Details -->
+    <string name="workout_title_placeholder">Workout Title</string>
+    <string name="workout_description_placeholder">Workout description goes here...</string>
+    <string name="btn_view_exercises">View Exercises</string>
+    <string name="btn_start_workout">Start Workout</string>
+
+    <!-- Exercises -->
+    <string name="title_exercises">Exercises</string>
+
+    <!-- Start Workout -->
+    <string name="title_start_workout">Start Workout</string>
+    <string name="checkbox_completed">Completed</string>
+
+    <!-- Workout History -->
+    <string name="history_title">Workout History</string>
+
+    <!-- Edit Profile Screen -->
+    <string name="profile_edit_title">Edit Profile</string>
+
+    <string name="hint_full_name">Full Name</string>
+    <string name="hint_age">Age</string>
+    <string name="hint_height">Height (cm)</string>
+    <string name="hint_weight">Weight (kg)</string>
+    <string name="btn_save_changes">Save Changes</string>
+
+
+    <!-- Change Password -->
+    <string name="label_change_password">Change Password</string>
+    <string name="hint_old_password">Old Password</string>
+    <string name="hint_new_password">New Password</string>
+    <string name="hint_confirm_new_password">Confirm New Password</string>
+    <string name="btn_change_password">Change Password</string>
+
+    <!-- Meals Screen -->
+    <string name="meals_title">Track Your Meals</string>
+    <string name="meals_name_hint">Meal name</string>
+    <string name="meals_calories_hint">Calories</string>
+    <string name="meals_add_btn">Add Meal</string>
+    <string name="meals_today_title">Today\'s Meals:</string>
+
+
+    <!-- Trainer Dashboard -->
+    <string name="trainer_dashboard_title">Trainer Dashboard</string>
+    <string name="trainer_create_plan">Create Workout Plan</string>
+    <string name="trainer_assign_workout">Assign Workout</string>
+    <string name="trainer_view_progress">View Trainee Progress</string>
+    <string name="trainer_send_reminder">Send Reminder</string>
+
+    <!-- Create Workout Plan Screen -->
+    <string name="plan_create_title">Create Workout Plan</string>
+    <string name="plan_title_hint">Plan Title</string>
+    <string name="plan_description_hint">Plan Description</string>
+    <string name="btn_save_plan">Save Plan</string>
+
+    <!-- Assign Workout -->
+    <string name="label_assign_workout">Assign Workout</string>
+    <string name="btn_assign">Assign</string>
+
+    <!-- Trainer Progress -->
+    <string name="trainee_progress_title">Trainee Progress</string>
+
+    <!-- Send Reminder -->
+    <string name="reminder_title">Send Reminder</string>
+    <string name="reminder_select_trainee">Select trainee</string>
+    <string name="reminder_message_hint">Your message...</string>
+    <string name="reminder_send_btn">Send</string>
+
+    <!-- Add Exercise -->
+    <string name="label_add_exercise">Add Exercise</string>
+    <string name="hint_exercise_name">Exercise Name</string>
+    <string name="hint_sets">Sets</string>
+    <string name="hint_reps">Reps</string>
+    <string name="hint_notes_optional">Notes (optional)</string>
+    <string name="btn_add_exercise">Add Exercise</string>
+
+    <!-- Workout Assign -->
+    <string name="hint_select_trainee">Select Trainee</string>
+    <string name="hint_select_plan">Select Plan</string>
+
+    <!-- Progress Screen -->
+    <string name="progress_title">Your Progress</string>
+    <string name="progress_weekly_goal">Weekly Goal</string>
+    <string name="progress_workouts_done">Workouts Done</string>
+    <string name="progress_calories_burned">Calories Burned</string>
+
+
+</resources>
