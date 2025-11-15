@@ -37,7 +37,7 @@ public class TrainerProgressViewActivity extends AppCompatActivity {
         TextView tv = new TextView(this);
         tv.setText(name + " — " + percent);
         tv.setPadding(10, 12, 10, 12);
-        tv.setTextColor(getResources().getColor(R.color.white));
+        tv.setTextColor(getResources().getColor(R.color.text_primary));
         tv.setTextSize(18);
         progressList.addView(tv);
     }

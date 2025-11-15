@@ -132,5 +132,20 @@
     <string name="progress_workouts_done">Workouts Done</string>
     <string name="progress_calories_burned">Calories Burned</string>
 
+    <!-- Calendar -->
+    <string name="calendar_title">Workout Calendar</string>
+    <string name="calendar_selected_date">Selected Date</string>
+    <string name="calendar_no_workout">No workout logged for this day</string>
+
+    <!-- BMI Calculator -->
+    <string name="bmi_title">BMI Calculator</string>
+    <string name="bmi_height_hint">Enter height (cm)</string>
+    <string name="bmi_weight_hint">Enter weight (kg)</string>
+    <string name="bmi_calculate_btn">Calculate BMI</string>
+    <string name="bmi_result">Your BMI:</string>
+    <string name="bmi_underweight">Underweight</string>
+    <string name="bmi_normal">Normal</string>
+    <string name="bmi_overweight">Overweight</string>
+    <string name="bmi_obese">Obese</string>
 
 </resources>

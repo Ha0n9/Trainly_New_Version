@@ -3,6 +3,7 @@ package com.example.trainly;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,34 @@ public class SignupActivity extends AppCompatActivity {
         etConfirmPass = findViewById(R.id.etSignupConfirmPass);
         btnCreateAccount = findViewById(R.id.btnCreateAccount);
 
-        btnCreateAccount.setOnClickListener(v -> finish());
+        btnCreateAccount.setOnClickListener(v -> {
+            String name = etName.getText().toString().trim();
+            String email = etEmail.getText().toString().trim();
+            String pass = etPassword.getText().toString().trim();
+            String confirm = etConfirmPass.getText().toString().trim();
+
+            if (name.isEmpty() || email.isEmpty() || pass.isEmpty() || confirm.isEmpty()) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!pass.equals(confirm)) {
+                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            DatabaseHelper db = new DatabaseHelper(this);
+
+            boolean created = db.createUser(name, email, pass);
+
+            if (!created) {
+                Toast.makeText(this, "Email already registered", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show();
+            finish(); // go back to login
+        });
+
     }
 }

@@ -14,65 +14,144 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="18dp"
-      android:text="@string/home_greeting"
+      android:text="Hi,"
       android:textColor="@color/text_primary"
       android:textSize="24sp"
       android:textStyle="bold" />
 
-  <!-- WORKOUT CARD -->
+  <!-- CARD: Today Workout -->
   <androidx.cardview.widget.CardView
       android:id="@+id/cardWorkouts"
       android:layout_width="match_parent"
-      android:layout_height="120dp"
-      android:layout_marginBottom="12dp"
-      app:cardBackgroundColor="@color/card_dark"
-      app:cardCornerRadius="16dp">
+      android:layout_height="80dp"
+      android:layout_marginBottom="14dp"
+      android:elevation="6dp"
+      app:cardCornerRadius="20dp"
+      app:cardBackgroundColor="@color/card_dark">
 
-    <TextView
-        android:id="@+id/tvCardWorkouts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="@string/home_card_workouts"
-        android:textColor="@color/primary_orange"
-        android:textSize="18sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="20dp">
+
+      <TextView
+          android:id="@+id/iconWorkout"
+          android:layout_width="40dp"
+          android:layout_height="40dp"
+          android:gravity="center"
+          android:text="🔥"
+          android:textSize="28sp" />
+
+      <TextView
+          android:id="@+id/tvCardWorkouts"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:paddingStart="12dp"
+          android:text="@string/home_card_workouts"
+          android:textColor="@color/text_primary"
+          android:textSize="18sp"
+          android:textStyle="bold" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="›"
+          android:textColor="@color/primary_orange"
+          android:textSize="28sp" />
+    </LinearLayout>
   </androidx.cardview.widget.CardView>
 
-  <!-- PROGRESS CARD -->
+  <!-- CARD: Progress -->
   <androidx.cardview.widget.CardView
       android:id="@+id/cardProgress"
       android:layout_width="match_parent"
-      android:layout_height="120dp"
-      android:layout_marginBottom="12dp"
-      app:cardBackgroundColor="@color/card_dark"
-      app:cardCornerRadius="16dp">
+      android:layout_height="80dp"
+      android:layout_marginBottom="14dp"
+      android:elevation="6dp"
+      app:cardCornerRadius="20dp"
+      app:cardBackgroundColor="@color/card_dark">
 
-    <TextView
-        android:id="@+id/tvCardProgress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="@string/home_card_progress"
-        android:textColor="@color/primary_orange"
-        android:textSize="18sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="20dp">
+
+      <TextView
+          android:id="@+id/iconProgress"
+          android:layout_width="40dp"
+          android:layout_height="40dp"
+          android:gravity="center"
+          android:text="📈"
+          android:textSize="28sp" />
+
+      <TextView
+          android:id="@+id/tvCardProgress"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:paddingStart="12dp"
+          android:text="@string/home_card_progress"
+          android:textColor="@color/text_primary"
+          android:textSize="18sp"
+          android:textStyle="bold" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="›"
+          android:textColor="@color/primary_orange"
+          android:textSize="28sp" />
+    </LinearLayout>
   </androidx.cardview.widget.CardView>
 
-  <!-- MEALS CARD -->
+  <!-- CARD: Meals -->
   <androidx.cardview.widget.CardView
       android:id="@+id/cardMeals"
       android:layout_width="match_parent"
-      android:layout_height="120dp"
-      app:cardBackgroundColor="@color/card_dark"
-      app:cardCornerRadius="16dp">
+      android:layout_height="80dp"
+      android:elevation="6dp"
+      app:cardCornerRadius="20dp"
+      app:cardBackgroundColor="@color/card_dark">
 
-    <TextView
-        android:id="@+id/tvCardMeals"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="@string/home_card_meals"
-        android:textColor="@color/primary_orange"
-        android:textSize="18sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="20dp">
+
+      <TextView
+          android:id="@+id/iconMeals"
+          android:layout_width="40dp"
+          android:layout_height="40dp"
+          android:gravity="center"
+          android:text="🍽️"
+          android:textSize="28sp" />
+
+      <TextView
+          android:id="@+id/tvCardMeals"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:paddingStart="12dp"
+          android:text="@string/home_card_meals"
+          android:textColor="@color/text_primary"
+          android:textSize="18sp"
+          android:textStyle="bold" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="›"
+          android:textColor="@color/primary_orange"
+          android:textSize="28sp" />
+    </LinearLayout>
   </androidx.cardview.widget.CardView>
+
 
 </LinearLayout>

@@ -39,9 +39,9 @@ public class WorkoutHistoryAdapter extends RecyclerView.Adapter<WorkoutHistoryAd
     public void onBindViewHolder(ViewHolder h, int position) {
         WorkoutHistoryItem item = list.get(position);
 
-        h.tvDate.setText(item.date);
-        h.tvTitle.setText(item.title);
-        h.tvSummary.setText(item.summary);
+        h.tvDate.setText(item.getDate());
+        h.tvTitle.setText(item.getTitle());
+        h.tvSummary.setText(item.getSummary());
     }
 
     @Override

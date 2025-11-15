@@ -32,7 +32,7 @@
 
             <!-- Workout Title -->
             <TextView
-                android:id="@+id/tvHistoryWorkoutTitle"
+                android:id="@+id/tvHistoryTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_primary"
@@ -52,9 +52,9 @@
 
         </LinearLayout>
 
-        <!-- Calories / Duration -->
+        <!-- Summary / Detail -->
         <TextView
-            android:id="@+id/tvHistoryDetail"
+            android:id="@+id/tvHistorySummary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="450 kcal"

@@ -43,7 +43,7 @@ public class TrackMealsActivity extends AppCompatActivity {
             // thêm 1 dòng vào meal list
             TextView tv = new TextView(this);
             tv.setText("- " + name + " (" + cal + " kcal)");
-            tv.setTextColor(getResources().getColor(R.color.white));
+            tv.setTextColor(getResources().getColor(R.color.text_primary));
             tv.setTextSize(16);
 
             mealList.addView(tv);
