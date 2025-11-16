@@ -1,18 +1,22 @@
 package com.example.trainly;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class TrainerProgressViewActivity extends AppCompatActivity {
 
-    LinearLayout progressList;
+    LinearLayout layoutTraineeProgress;
+    DatabaseHelper db;
+    int trainerId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,20 +29,36 @@ public class TrainerProgressViewActivity extends AppCompatActivity {
             return insets;
         });
 
-        progressList = findViewById(R.id.progressList);
+        db = new DatabaseHelper(this);
+        trainerId = getIntent().getIntExtra("trainer_id", -1);
 
-        // fake trainee progress
-        addProgressRow("Alex", "72%");
-        addProgressRow("Maria", "55%");
-        addProgressRow("John", "90%");
+        layoutTraineeProgress = findViewById(R.id.progressList);
+
+        loadProgress();
     }
 
-    private void addProgressRow(String name, String percent) {
-        TextView tv = new TextView(this);
-        tv.setText(name + " — " + percent);
-        tv.setPadding(10, 12, 10, 12);
-        tv.setTextColor(getResources().getColor(R.color.text_primary));
-        tv.setTextSize(18);
-        progressList.addView(tv);
+    private void loadProgress() {
+        layoutTraineeProgress.removeAllViews();
+
+        if (trainerId == -1) return;
+
+        Cursor c = db.getTraineeProgressForTrainer(trainerId);
+        if (c != null) {
+            while (c.moveToNext()) {
+                String name = c.getString(1);
+                int totalAssigned = c.getInt(2);
+                int completed = c.getInt(3);
+
+                TextView tv = new TextView(this);
+                tv.setText(name + " • " + completed + " / " + totalAssigned + " workouts completed");
+                tv.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
+                tv.setTextSize(16f);
+                int pad = (int) (8 * getResources().getDisplayMetrics().density);
+                tv.setPadding(0, pad, 0, pad);
+
+                layoutTraineeProgress.addView(tv);
+            }
+            c.close();
+        }
     }
 }

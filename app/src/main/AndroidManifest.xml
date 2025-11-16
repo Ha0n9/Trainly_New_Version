@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Trainly">
         <activity
+            android:name=".EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChooseTrainerActivity"
+            android:exported="false" />
+        <activity
             android:name=".BMIActivity"
             android:exported="false" />
         <activity

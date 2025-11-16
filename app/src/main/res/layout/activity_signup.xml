@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/card_dark"
-            android:hint="@string/signup_fullname"
+            android:hint="Full Name"
             android:padding="12dp"
             android:textColor="@color/text_primary"
             android:textColorHint="@color/text_secondary" />
@@ -40,8 +40,47 @@
             android:layout_height="50dp"
             android:layout_marginTop="12dp"
             android:background="@color/card_dark"
-            android:hint="@string/signup_email"
+            android:hint="Email"
             android:inputType="textEmailAddress"
+            android:padding="12dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary" />
+
+        <!-- Age -->
+        <EditText
+            android:id="@+id/etSignupAge"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/card_dark"
+            android:hint="Age"
+            android:inputType="number"
+            android:padding="12dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary" />
+
+        <!-- Height -->
+        <EditText
+            android:id="@+id/etSignupHeight"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/card_dark"
+            android:hint="Height (cm)"
+            android:inputType="numberDecimal"
+            android:padding="12dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary" />
+
+        <!-- Weight -->
+        <EditText
+            android:id="@+id/etSignupWeight"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/card_dark"
+            android:hint="Weight (kg)"
+            android:inputType="numberDecimal"
             android:padding="12dp"
             android:textColor="@color/text_primary"
             android:textColorHint="@color/text_secondary" />
@@ -53,7 +92,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="12dp"
             android:background="@color/card_dark"
-            android:hint="@string/signup_password"
+            android:hint="Password"
             android:inputType="textPassword"
             android:padding="12dp"
             android:textColor="@color/text_primary"
@@ -66,7 +105,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="12dp"
             android:background="@color/card_dark"
-            android:hint="@string/signup_confirm_password"
+            android:hint="Confirm Password"
             android:inputType="textPassword"
             android:padding="12dp"
             android:textColor="@color/text_primary"
@@ -79,7 +118,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/primary_orange"
-            android:text="@string/signup_btn"
+            android:text="Create Account"
             android:textColor="@color/background_dark" />
 
     </LinearLayout>

@@ -3,18 +3,18 @@ package com.example.trainly;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class ClientProfileActivity extends AppCompatActivity {
 
-    TextView tvGreeting;
-    CardView cardWorkouts, cardProgress, cardMeals;
+    TextView tvUserFullname, tvUserRole;
+    TextView tvStatWorkouts, tvStatCalories, tvStatWeight;
+
+    CardView cardWorkouts, cardProgress, cardMeals, cardEditProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,24 +22,63 @@ public class ClientProfileActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_client_profile);
 
-        tvGreeting = findViewById(R.id.tvGreeting);
+        // bind UI
+        tvUserFullname = findViewById(R.id.tvUserFullname);
+        tvUserRole = findViewById(R.id.tvUserRole);
+
+        tvStatWorkouts = findViewById(R.id.tvStatWorkouts);
+        tvStatCalories = findViewById(R.id.tvStatCalories);
+        tvStatWeight = findViewById(R.id.tvStatWeight);
 
         cardWorkouts = findViewById(R.id.cardWorkouts);
         cardProgress = findViewById(R.id.cardProgress);
         cardMeals = findViewById(R.id.cardMeals);
+        cardEditProfile = findViewById(R.id.cardEditProfile);
 
+        // get user info
         String name = getIntent().getStringExtra("name");
-        if (name != null) {
-            tvGreeting.setText("Hi, " + name);
+        String role = getIntent().getStringExtra("role");
+        String email = getIntent().getStringExtra("email");
+
+        if (name != null) tvUserFullname.setText(name);
+        if (role != null) tvUserRole.setText(role);
+        if (email == null) {
+            Toast.makeText(this, "Error: missing email", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
 
-        cardWorkouts.setOnClickListener(v ->
-                startActivity(new Intent(this, ClientWorkoutsActivity.class)));
+        // ===== LOAD STATS =====
+        DatabaseHelper db = new DatabaseHelper(this);
+        int userId = db.getUserIdByEmail(email);
 
-        cardProgress.setOnClickListener(v ->
-                startActivity(new Intent(this, ClientProgressActivity.class)));
+        tvStatWorkouts.setText(String.valueOf(db.getCompletedWorkouts(userId)));
+        tvStatCalories.setText(String.valueOf(db.getTotalCalories(userId)));
+        tvStatWeight.setText(db.getUserWeightByEmail(email) + " kg");
 
-        cardMeals.setOnClickListener(v ->
-                startActivity(new Intent(this, TrackMealsActivity.class)));
+        // card clicks
+        cardWorkouts.setOnClickListener(v -> {
+            Intent i = new Intent(this, ClientWorkoutsActivity.class);
+            i.putExtra("email", getIntent().getStringExtra("email"));
+            startActivity(i);
+        });
+
+        cardProgress.setOnClickListener(v -> {
+            Intent i = new Intent(this, ClientProgressActivity.class);
+            i.putExtra("email", getIntent().getStringExtra("email"));
+            startActivity(i);
+        });
+
+        cardMeals.setOnClickListener(v -> {
+            Intent i = new Intent(this, TrackMealsActivity.class);
+            i.putExtra("email", email);
+            startActivity(i);
+        });
+
+        cardEditProfile.setOnClickListener(v -> {
+            Intent i = new Intent(this, EditClientProfileActivity.class);
+            i.putExtra("email", email);
+            startActivity(i);
+        });
     }
 }

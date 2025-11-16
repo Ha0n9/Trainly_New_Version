@@ -52,7 +52,7 @@
 
         <TextView
             android:id="@+id/tvUserFullname"
-            android:text="Alex"
+            android:text=""
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/text_primary"
@@ -61,7 +61,7 @@
 
         <TextView
             android:id="@+id/tvUserRole"
-            android:text="Trainee"
+            android:text=""
             android:textSize="14sp"
             android:textColor="@color/primary_orange"
             android:layout_width="wrap_content"
@@ -283,6 +283,7 @@
       android:layout_height="80dp"
       android:elevation="6dp"
       app:cardCornerRadius="20dp"
+      android:layout_marginBottom="14dp"
       app:cardBackgroundColor="@color/card_dark">
 
     <LinearLayout
@@ -306,6 +307,48 @@
           android:layout_weight="1"
           android:paddingStart="12dp"
           android:text="@string/home_card_meals"
+          android:textColor="@color/text_primary"
+          android:textSize="18sp"
+          android:textStyle="bold" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="›"
+          android:textColor="@color/primary_orange"
+          android:textSize="28sp" />
+    </LinearLayout>
+  </androidx.cardview.widget.CardView>
+
+  <!-- EDIT PROFILE -->
+  <androidx.cardview.widget.CardView
+      android:id="@+id/cardEditProfile"
+      android:layout_width="match_parent"
+      android:layout_height="80dp"
+      android:elevation="6dp"
+      app:cardCornerRadius="20dp"
+      app:cardBackgroundColor="@color/card_dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="20dp">
+
+      <ImageView
+          android:layout_width="26dp"
+          android:layout_height="26dp"
+          android:layout_marginStart="16dp"
+          android:src="@drawable/edit"
+          app:tint="@color/primary_orange" />
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:paddingStart="12dp"
+          android:text="Edit Profile"
           android:textColor="@color/text_primary"
           android:textSize="18sp"
           android:textStyle="bold" />

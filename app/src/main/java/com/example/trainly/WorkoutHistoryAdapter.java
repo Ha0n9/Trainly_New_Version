@@ -1,51 +1,69 @@
 package com.example.trainly;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class WorkoutHistoryAdapter extends RecyclerView.Adapter<WorkoutHistoryAdapter.ViewHolder> {
 
-    List<WorkoutHistoryItem> list;
+    Context context;
+    ArrayList<WorkoutHistoryItem> historyList;
 
-    public WorkoutHistoryAdapter(List<WorkoutHistoryItem> list) {
-        this.list = list;
+    public WorkoutHistoryAdapter(Context context, ArrayList<WorkoutHistoryItem> historyList) {
+        this.context = context;
+        this.historyList = historyList;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvDate, tvTitle, tvSummary;
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context)
+                .inflate(R.layout.item_workout_history, parent, false);
+        return new ViewHolder(view);
+    }
 
-        ViewHolder(View v) {
-            super(v);
-            tvDate = v.findViewById(R.id.tvHistoryDate);
-            tvTitle = v.findViewById(R.id.tvHistoryTitle);
-            tvSummary = v.findViewById(R.id.tvHistorySummary);
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+        WorkoutHistoryItem item = historyList.get(position);
+
+        holder.tvTitle.setText(item.getTitle());
+        holder.tvDate.setText(item.getDate());
+        holder.tvSummary.setText(item.getSummary());
+
+        // Icon status
+        if (item.isCompleted()) {
+            holder.ivStatus.setImageResource(R.drawable.ic_history_done);
+        } else {
+            holder.ivStatus.setImageResource(R.drawable.ic_history_pending);
         }
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_workout_history, parent, false);
-        return new ViewHolder(v);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder h, int position) {
-        WorkoutHistoryItem item = list.get(position);
-
-        h.tvDate.setText(item.getDate());
-        h.tvTitle.setText(item.getTitle());
-        h.tvSummary.setText(item.getSummary());
-    }
-
-    @Override
     public int getItemCount() {
-        return list.size();
+        return historyList.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView ivStatus;
+        TextView tvTitle, tvDate, tvSummary;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            ivStatus = itemView.findViewById(R.id.ivStatusIcon);
+            tvTitle = itemView.findViewById(R.id.tvHistoryTitle);
+            tvDate = itemView.findViewById(R.id.tvHistoryDate);
+            tvSummary = itemView.findViewById(R.id.tvHistorySummary);
+        }
     }
 }

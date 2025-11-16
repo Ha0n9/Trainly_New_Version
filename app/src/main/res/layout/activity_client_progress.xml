@@ -37,7 +37,7 @@
                 android:id="@+id/tvProgressPercent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="72%"
+                android:text="0%"
                 android:textColor="@color/primary_orange"
                 android:textSize="40sp"
                 android:textStyle="bold" />
@@ -46,7 +46,7 @@
                 android:id="@+id/tvWeeklyGoal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/progress_weekly_goal"
+                android:text="Weekly goal: 4 workouts"
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
 
@@ -57,17 +57,18 @@
     <!-- Stats -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         app:cardBackgroundColor="@color/card_dark"
         app:cardCornerRadius="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp">
 
+            <!-- Workouts done -->
             <TextView
                 android:id="@+id/tvWorkoutsDoneLabel"
                 android:layout_width="wrap_content"
@@ -81,9 +82,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="3 / 4"
+                android:text="0 / 0"
                 android:textColor="@color/text_primary"
                 android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <!-- Streak -->
+            <TextView
+                android:id="@+id/tvStreakLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Current streak"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvStreak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="0 days"
+                android:textColor="@color/primary_orange"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -93,13 +114,13 @@
     <!-- calories card -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/card_dark"
         app:cardCornerRadius="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp">
 
@@ -116,7 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="1,250 kcal"
+                android:text="0 kcal"
                 android:textColor="@color/primary_orange"
                 android:textSize="24sp"
                 android:textStyle="bold" />

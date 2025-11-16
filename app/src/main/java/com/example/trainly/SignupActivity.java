@@ -7,39 +7,45 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class SignupActivity extends AppCompatActivity {
 
-    EditText etName, etEmail, etPassword, etConfirmPass;
+    EditText etName, etEmail, etPassword, etConfirmPass, etAge, etHeight, etWeight;
     Button btnCreateAccount;
+
+    DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_signup);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        db = new DatabaseHelper(this);
 
         etName = findViewById(R.id.etSignupName);
         etEmail = findViewById(R.id.etSignupEmail);
+        etAge = findViewById(R.id.etSignupAge);
+        etHeight = findViewById(R.id.etSignupHeight);
+        etWeight = findViewById(R.id.etSignupWeight);
         etPassword = findViewById(R.id.etSignupPassword);
         etConfirmPass = findViewById(R.id.etSignupConfirmPass);
         btnCreateAccount = findViewById(R.id.btnCreateAccount);
 
         btnCreateAccount.setOnClickListener(v -> {
+
             String name = etName.getText().toString().trim();
             String email = etEmail.getText().toString().trim();
             String pass = etPassword.getText().toString().trim();
             String confirm = etConfirmPass.getText().toString().trim();
 
-            if (name.isEmpty() || email.isEmpty() || pass.isEmpty() || confirm.isEmpty()) {
+            String ageStr = etAge.getText().toString().trim();
+            String heightStr = etHeight.getText().toString().trim();
+            String weightStr = etWeight.getText().toString().trim();
+
+            if (name.isEmpty() || email.isEmpty() || pass.isEmpty() ||
+                    ageStr.isEmpty() || heightStr.isEmpty() || weightStr.isEmpty()) {
+
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -49,18 +55,19 @@ public class SignupActivity extends AppCompatActivity {
                 return;
             }
 
-            DatabaseHelper db = new DatabaseHelper(this);
+            int age = Integer.parseInt(ageStr);
+            double height = Double.parseDouble(heightStr);
+            double weight = Double.parseDouble(weightStr);
 
-            boolean created = db.createUser(name, email, pass);
+            boolean created = db.createUser(name, email, pass, age, height, weight);
 
             if (!created) {
-                Toast.makeText(this, "Email already registered", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Email already exists!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show();
-            finish(); // go back to login
+            Toast.makeText(this, "Account created!", Toast.LENGTH_SHORT).show();
+            finish();
         });
-
     }
 }

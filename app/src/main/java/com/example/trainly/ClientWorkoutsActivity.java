@@ -1,16 +1,13 @@
 package com.example.trainly;
 
 import android.os.Bundle;
+import android.database.Cursor;
+import java.util.ArrayList;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
 
 public class ClientWorkoutsActivity extends AppCompatActivity {
 
@@ -18,26 +15,57 @@ public class ClientWorkoutsActivity extends AppCompatActivity {
     ArrayList<Workout> workoutList;
     WorkoutAdapter workoutAdapter;
 
+    DatabaseHelper db;
+    String email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_client_workouts);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        db = new DatabaseHelper(this);
 
         recyclerClientWorkouts = findViewById(R.id.recyclerClientWorkouts);
-
         workoutList = new ArrayList<>();
-        workoutList.add(new Workout("Push Day", "Chest + Triceps + Shoulders", false));
-        workoutList.add(new Workout("Leg Day", "Quads + Glutes + Hamstrings", true));
-        workoutList.add(new Workout("Pull Day", "Back + Biceps", false));
 
+        // ✔ Lấy email từ Intent
+        email = getIntent().getStringExtra("email");
+
+        if (email == null) {
+            finish();
+            return;
+        }
+
+        // ✔ Lấy trainee ID
+        int traineeId = db.getUserIdByEmail(email);
+
+        // ✔ Load workouts từ DB
+        loadAssignedWorkouts(traineeId);
+
+        // ✔ Set adapter
         workoutAdapter = new WorkoutAdapter(workoutList);
         recyclerClientWorkouts.setLayoutManager(new LinearLayoutManager(this));
         recyclerClientWorkouts.setAdapter(workoutAdapter);
+    }
+
+    private void loadAssignedWorkouts(int traineeId) {
+        Cursor c = db.getAssignedWorkouts(traineeId);
+
+        if (c == null) return;
+
+        while (c.moveToNext()) {
+            String title = c.getString(1);
+            String description = c.getString(2);
+            int completed = c.getInt(3);
+
+            workoutList.add(new Workout(
+                    title,
+                    description,
+                    completed == 1  // true = completed
+            ));
+        }
+
+        c.close();
     }
 }

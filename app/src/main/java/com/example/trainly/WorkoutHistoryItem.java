@@ -1,14 +1,17 @@
 package com.example.trainly;
 
 public class WorkoutHistoryItem {
-    private final String date;
-    private final String title;
-    private final String summary;
 
-    public WorkoutHistoryItem(String date, String title, String summary) {
+    private String date;
+    private String title;
+    private String summary;
+    private boolean isCompleted;
+
+    public WorkoutHistoryItem(String date, String title, String summary, boolean isCompleted) {
         this.date = date;
         this.title = title;
         this.summary = summary;
+        this.isCompleted = isCompleted;
     }
 
     public String getDate() {
@@ -21,5 +24,9 @@ public class WorkoutHistoryItem {
 
     public String getSummary() {
         return summary;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
     }
 }

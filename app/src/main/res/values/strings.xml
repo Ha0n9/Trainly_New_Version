@@ -25,7 +25,6 @@
     <string name="signup_confirm_password">Confirm Password</string>
     <string name="signup_btn">Sign Up</string>
 
-
     <!-- Home Screen -->
     <string name="home_greeting">Hi, Alex</string>
     <string name="home_card_workouts">Today\'s Workout</string>

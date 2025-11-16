@@ -3,28 +3,21 @@ package com.example.trainly;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-
-import androidx.activity.EdgeToEdge;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class EditClientProfileActivity extends AppCompatActivity {
 
     EditText etName, etAge, etHeight, etWeight;
     Button btnSaveChanges;
 
+    DatabaseHelper db;
+    String email;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_edit_client_profile);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         etName = findViewById(R.id.etName);
         etAge = findViewById(R.id.etAge);
@@ -32,6 +25,59 @@ public class EditClientProfileActivity extends AppCompatActivity {
         etWeight = findViewById(R.id.etWeight);
         btnSaveChanges = findViewById(R.id.btnSaveProfile);
 
-        btnSaveChanges.setOnClickListener(v -> finish());
+        db = new DatabaseHelper(this);
+
+        email = getIntent().getStringExtra("email");
+        if (email == null) {
+            Toast.makeText(this, "Error: Missing email", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        loadProfile();
+
+        btnSaveChanges.setOnClickListener(v -> saveProfile());
+    }
+
+    private void loadProfile() {
+        var c = db.getReadableDatabase().rawQuery(
+                "SELECT name, age, height, weight FROM users WHERE email=?",
+                new String[]{email}
+        );
+
+        if (c.moveToFirst()) {
+            etName.setText(c.getString(0));
+            etAge.setText(String.valueOf(c.getInt(1)));
+            etHeight.setText(String.valueOf(c.getDouble(2)));
+            etWeight.setText(String.valueOf(c.getDouble(3)));
+        }
+        c.close();
+    }
+
+    private void saveProfile() {
+        String name = etName.getText().toString().trim();
+        String ageStr = etAge.getText().toString().trim();
+        String heightStr = etHeight.getText().toString().trim();
+        String weightStr = etWeight.getText().toString().trim();
+
+        if (name.isEmpty() || ageStr.isEmpty() || heightStr.isEmpty() || weightStr.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int age = Integer.parseInt(ageStr);
+        double height = Double.parseDouble(heightStr);
+        double weight = Double.parseDouble(weightStr);
+
+        var cv = new android.content.ContentValues();
+        cv.put("name", name);
+        cv.put("age", age);
+        cv.put("height", height);
+        cv.put("weight", weight);
+
+        db.getWritableDatabase().update("users", cv, "email=?", new String[]{email});
+
+        Toast.makeText(this, "Profile updated!", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

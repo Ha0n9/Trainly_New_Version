@@ -1,10 +1,12 @@
 package com.example.trainly;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,47 +15,92 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TrainerReminderActivity extends AppCompatActivity {
 
-    Spinner spTrainee;
-    EditText etMessage;
-    Button btnSend;
+    Spinner spTraineeReminder;
+    EditText etReminderMessage;
+    Button btnSendReminder;
+
+    DatabaseHelper db;
+    int trainerId = -1;
+
+    ArrayList<Integer> traineeIds = new ArrayList<>();
+    ArrayList<String> traineeNames = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_trainer_reminder);
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        spTrainee = findViewById(R.id.spTraineeReminder);
-        etMessage = findViewById(R.id.etMessageReminder);
-        btnSend = findViewById(R.id.btnSendReminder);
+        db = new DatabaseHelper(this);
+        trainerId = getIntent().getIntExtra("trainer_id", -1);
 
-        List<String> traineeList = new ArrayList<>();
-        traineeList.add("Select trainee");
-        traineeList.add("Alex");
-        traineeList.add("Maria");
-        traineeList.add("John");
+        spTraineeReminder = findViewById(R.id.spTraineeReminder);
+        etReminderMessage = findViewById(R.id.etMessageReminder);
+        btnSendReminder = findViewById(R.id.btnSendReminder);
+
+        loadTrainees();
+
+        btnSendReminder.setOnClickListener(v -> {
+            if (traineeIds.isEmpty()) {
+                Toast.makeText(this, "No trainees available", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String msg = etReminderMessage.getText().toString().trim();
+            if (msg.isEmpty()) {
+                Toast.makeText(this, "Enter reminder message", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int pos = spTraineeReminder.getSelectedItemPosition();
+            String name = traineeNames.get(pos);
+
+            // Demo: chỉ show Toast, giả lập gửi reminder
+            Toast.makeText(this,
+                    "Reminder sent to " + name + ":\n" + msg,
+                    Toast.LENGTH_LONG).show();
+
+            etReminderMessage.setText("");
+        });
+    }
+
+    private void loadTrainees() {
+        traineeIds.clear();
+        traineeNames.clear();
+
+        if (trainerId == -1) return;
+
+        Cursor c = db.getTraineesForTrainer(trainerId);
+        if (c != null) {
+            while (c.moveToNext()) {
+                int id = c.getInt(0);
+                String name = c.getString(1);
+                String email = c.getString(2);
+
+                traineeIds.add(id);
+                if (name == null || name.trim().isEmpty()) {
+                    traineeNames.add(email);
+                } else {
+                    traineeNames.add(name);
+                }
+            }
+            c.close();
+        }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
-                R.layout.spinner_text,
-                traineeList
+                android.R.layout.simple_spinner_item,
+                traineeNames
         );
-
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown);
-
-        spTrainee.setAdapter(adapter);
-        spTrainee.setSelection(0);
-
-        btnSend.setOnClickListener(v -> finish());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spTraineeReminder.setAdapter(adapter);
     }
 }
