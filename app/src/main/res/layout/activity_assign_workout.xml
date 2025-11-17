@@ -18,7 +18,7 @@
         android:textStyle="bold" />
 
     <!-- TRAINEE SELECT -->
-    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+    <Spinner
         android:id="@+id/spTrainee"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -30,7 +30,7 @@
         android:entries="@array/trainee_list" />
 
     <!-- PLAN SELECT -->
-    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+    <Spinner
         android:id="@+id/spPlan"
         android:layout_width="match_parent"
         android:layout_height="50dp"
