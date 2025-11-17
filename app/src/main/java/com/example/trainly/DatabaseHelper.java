@@ -706,5 +706,121 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         );
     }
 
+    // ====== GET UNREAD NOTIFICATION COUNT ======
+    public int getUnreadNotificationCount(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(
+                "SELECT COUNT(*) FROM notifications WHERE user_id=? AND is_read=0",
+                new String[]{String.valueOf(userId)}
+        );
+
+        if (c.moveToFirst()) {
+            int count = c.getInt(0);
+            c.close();
+            return count;
+        }
+        c.close();
+        return 0;
+    }
+
+    // ====== MARK NOTIFICATION AS READ ======
+    public void markNotificationAsRead(int notificationId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("is_read", 1);
+        db.update("notifications", cv, "id=?", new String[]{String.valueOf(notificationId)});
+    }
+
+    // ====== MARK ALL NOTIFICATIONS AS READ ======
+    public void markAllNotificationsAsRead(int userId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("is_read", 1);
+        db.update("notifications", cv, "user_id=?", new String[]{String.valueOf(userId)});
+    }
+
+    // ====== GET PENDING REQUESTS COUNT ======
+    public int getPendingRequestsCount(int trainerId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(
+                "SELECT COUNT(*) FROM trainer_requests WHERE trainer_id=? AND status='pending'",
+                new String[]{String.valueOf(trainerId)}
+        );
+
+        if (c.moveToFirst()) {
+            int count = c.getInt(0);
+            c.close();
+            return count;
+        }
+        c.close();
+        return 0;
+    }
+
+    // ====== DELETE/REMOVE TRAINEE FROM TRAINER ======
+    public boolean removeTrainee(int trainerId, int traineeId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Delete trainer_trainee relation
+        int deleted = db.delete("trainer_trainee",
+                "trainer_id=? AND trainee_id=?",
+                new String[]{String.valueOf(trainerId), String.valueOf(traineeId)});
+
+        if (deleted > 0) {
+            // Notify trainee
+            insertNotification(traineeId, "Your trainer has removed you from their client list.");
+
+            // Update trainer_requests to cancelled
+            ContentValues cv = new ContentValues();
+            cv.put("status", "cancelled");
+            cv.put("date_updated", String.valueOf(System.currentTimeMillis()));
+            db.update("trainer_requests", cv,
+                    "trainer_id=? AND trainee_id=? AND status='accepted'",
+                    new String[]{String.valueOf(trainerId), String.valueOf(traineeId)});
+
+            return true;
+        }
+        return false;
+    }
+
+    // ====== GET TRAINEE DETAIL BY ID ======
+    public Cursor getTraineeDetailById(int traineeId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery(
+                "SELECT id, name, email, age, height, weight FROM users WHERE id=? AND role='client'",
+                new String[]{String.valueOf(traineeId)}
+        );
+    }
+
+    // ====== GET TRAINEE WORKOUT STATS ======
+    public Cursor getTraineeWorkoutStats(int traineeId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery(
+                "SELECT " +
+                        "COUNT(*) as total_workouts, " +
+                        "SUM(CASE WHEN status='completed' THEN 1 ELSE 0 END) as completed, " +
+                        "SUM(CASE WHEN status='failed' THEN 1 ELSE 0 END) as failed, " +
+                        "SUM(calories) as total_calories " +
+                        "FROM workout_history WHERE trainee_id=?",
+                new String[]{String.valueOf(traineeId)}
+        );
+    }
+
+    // ====== GET TRAINEE COUNT FOR TRAINER ======
+    public int getTraineeCount(int trainerId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(
+                "SELECT COUNT(*) FROM trainer_trainee WHERE trainer_id=?",
+                new String[]{String.valueOf(trainerId)}
+        );
+
+        if (c.moveToFirst()) {
+            int count = c.getInt(0);
+            c.close();
+            return count;
+        }
+        c.close();
+        return 0;
+    }
+
 
 }

@@ -2,6 +2,9 @@ package com.example.trainly;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +16,8 @@ import java.util.ArrayList;
 public class TrainerPendingRequestsActivity extends AppCompatActivity {
 
     RecyclerView recycler;
+    TextView tvEmpty;
+    ImageView btnBack;
     DatabaseHelper db;
     ArrayList<TrainerRequestItem> list = new ArrayList<>();
     int trainerId;
@@ -23,6 +28,9 @@ public class TrainerPendingRequestsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_trainer_pending_requests);
 
         recycler = findViewById(R.id.recyclerTrainerRequests);
+        tvEmpty = findViewById(R.id.tvEmptyRequests);
+        btnBack = findViewById(R.id.btnBack);
+
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
         db = new DatabaseHelper(this);
@@ -35,6 +43,8 @@ public class TrainerPendingRequestsActivity extends AppCompatActivity {
             finish();
             return;
         }
+
+        btnBack.setOnClickListener(v -> finish());
 
         loadRequests();
     }
@@ -61,7 +71,20 @@ public class TrainerPendingRequestsActivity extends AppCompatActivity {
             c.close();
         }
 
-        TrainerRequestAdapter adapter = new TrainerRequestAdapter(this, list, db, trainerId);
-        recycler.setAdapter(adapter);
+        if (list.isEmpty()) {
+            recycler.setVisibility(View.GONE);
+            tvEmpty.setVisibility(View.VISIBLE);
+        } else {
+            recycler.setVisibility(View.VISIBLE);
+            tvEmpty.setVisibility(View.GONE);
+
+            TrainerRequestAdapter adapter = new TrainerRequestAdapter(this, list, db, trainerId);
+            recycler.setAdapter(adapter);
+        }
+    }
+
+    // Call this method from adapter to refresh list after accept/reject
+    public void refreshRequests() {
+        loadRequests();
     }
 }

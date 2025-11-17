@@ -1,6 +1,7 @@
 package com.example.trainly;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,12 @@ public class TrainerTraineeListAdapter extends RecyclerView.Adapter<TrainerTrain
 
     Context context;
     ArrayList<TrainerRequestItem> list;
+    int trainerId;
 
-    public TrainerTraineeListAdapter(Context context, ArrayList<TrainerRequestItem> list) {
+    public TrainerTraineeListAdapter(Context context, ArrayList<TrainerRequestItem> list, int trainerId) {
         this.context = context;
         this.list = list;
+        this.trainerId = trainerId;
     }
 
     @NonNull
@@ -34,6 +37,14 @@ public class TrainerTraineeListAdapter extends RecyclerView.Adapter<TrainerTrain
 
         h.name.setText(t.name);
         h.email.setText(t.email);
+
+        // Click to view trainee detail
+        h.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, TrainerViewTraineeDetailActivity.class);
+            intent.putExtra("trainerId", trainerId);
+            intent.putExtra("traineeId", t.traineeId);
+            context.startActivity(intent);
+        });
     }
 
     @Override

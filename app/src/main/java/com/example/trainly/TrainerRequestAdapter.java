@@ -46,17 +46,31 @@ public class TrainerRequestAdapter extends RecyclerView.Adapter<TrainerRequestAd
         h.btnAccept.setOnClickListener(v -> {
             boolean ok = db.acceptTrainerRequest(t.requestId, trainerId, t.traineeId);
             if (ok) {
-                Toast.makeText(context, "Accepted!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, t.name + " accepted!", Toast.LENGTH_SHORT).show();
                 list.remove(pos);
                 notifyItemRemoved(pos);
+                notifyItemRangeChanged(pos, list.size());
+
+                // Refresh activity to show empty state if needed
+                if (list.isEmpty() && context instanceof TrainerPendingRequestsActivity) {
+                    ((TrainerPendingRequestsActivity) context).refreshRequests();
+                }
+            } else {
+                Toast.makeText(context, "Failed to accept request", Toast.LENGTH_SHORT).show();
             }
         });
 
         h.btnReject.setOnClickListener(v -> {
-            db.rejectTrainerRequest(t.requestId, "Not suitable");
-            Toast.makeText(context, "Rejected!", Toast.LENGTH_SHORT).show();
+            db.rejectTrainerRequest(t.requestId, "Not suitable at this time");
+            Toast.makeText(context, t.name + " rejected", Toast.LENGTH_SHORT).show();
             list.remove(pos);
             notifyItemRemoved(pos);
+            notifyItemRangeChanged(pos, list.size());
+
+            // Refresh activity to show empty state if needed
+            if (list.isEmpty() && context instanceof TrainerPendingRequestsActivity) {
+                ((TrainerPendingRequestsActivity) context).refreshRequests();
+            }
         });
     }
 

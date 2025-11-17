@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
@@ -18,10 +19,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     Context context;
     ArrayList<NotificationItem> list;
+    DatabaseHelper db;
 
-    public NotificationAdapter(Context context, ArrayList<NotificationItem> list) {
+    public NotificationAdapter(Context context, ArrayList<NotificationItem> list, DatabaseHelper db) {
         this.context = context;
         this.list = list;
+        this.db = db;
     }
 
     @NonNull
@@ -41,6 +44,24 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 .format(new Date(n.timestamp));
 
         h.time.setText(time);
+
+        // Show unread indicator
+        if (n.isRead == 0) {
+            h.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.card_dark));
+            h.msg.setTextColor(context.getResources().getColor(R.color.text_primary));
+        } else {
+            h.cardView.setCardBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+            h.msg.setTextColor(context.getResources().getColor(R.color.text_secondary));
+        }
+
+        // Mark as read on click
+        h.itemView.setOnClickListener(v -> {
+            if (n.isRead == 0) {
+                db.markNotificationAsRead(n.id);
+                n.isRead = 1;
+                notifyItemChanged(pos);
+            }
+        });
     }
 
     @Override
@@ -48,11 +69,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        CardView cardView;
         TextView msg, time;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            cardView = (CardView) itemView;
             msg = itemView.findViewById(R.id.tvMessage);
             time = itemView.findViewById(R.id.tvTimestamp);
         }
