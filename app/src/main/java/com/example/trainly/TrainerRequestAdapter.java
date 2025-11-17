@@ -44,12 +44,16 @@ public class TrainerRequestAdapter extends RecyclerView.Adapter<TrainerRequestAd
         h.info.setText("Age " + t.age + " • " + t.height + "cm • " + t.weight + "kg");
 
         h.btnAccept.setOnClickListener(v -> {
-            boolean ok = db.acceptTrainerRequest(t.requestId, trainerId, t.traineeId);
+            int currentPosition = h.getAdapterPosition();
+            if (currentPosition == RecyclerView.NO_POSITION) {
+                return;
+            }
+            TrainerRequestItem currentItem = list.get(currentPosition);
+            boolean ok = db.acceptTrainerRequest(currentItem.requestId, trainerId, currentItem.traineeId);
             if (ok) {
-                Toast.makeText(context, t.name + " accepted!", Toast.LENGTH_SHORT).show();
-                list.remove(pos);
-                notifyItemRemoved(pos);
-                notifyItemRangeChanged(pos, list.size());
+                Toast.makeText(context, currentItem.name + " accepted!", Toast.LENGTH_SHORT).show();
+                list.remove(currentPosition);
+                notifyItemRemoved(currentPosition);
 
                 // Refresh activity to show empty state if needed
                 if (list.isEmpty() && context instanceof TrainerPendingRequestsActivity) {
@@ -61,11 +65,15 @@ public class TrainerRequestAdapter extends RecyclerView.Adapter<TrainerRequestAd
         });
 
         h.btnReject.setOnClickListener(v -> {
-            db.rejectTrainerRequest(t.requestId, "Not suitable at this time");
-            Toast.makeText(context, t.name + " rejected", Toast.LENGTH_SHORT).show();
-            list.remove(pos);
-            notifyItemRemoved(pos);
-            notifyItemRangeChanged(pos, list.size());
+            int currentPosition = h.getAdapterPosition();
+            if (currentPosition == RecyclerView.NO_POSITION) {
+                return;
+            }
+            TrainerRequestItem currentItem = list.get(currentPosition);
+            db.rejectTrainerRequest(t.requestId, t.traineeId, "Not suitable at this time");
+            Toast.makeText(context, currentItem.name + " rejected", Toast.LENGTH_SHORT).show();
+            list.remove(currentPosition);
+            notifyItemRemoved(currentPosition);
 
             // Refresh activity to show empty state if needed
             if (list.isEmpty() && context instanceof TrainerPendingRequestsActivity) {
@@ -73,6 +81,7 @@ public class TrainerRequestAdapter extends RecyclerView.Adapter<TrainerRequestAd
             }
         });
     }
+
 
     @Override
     public int getItemCount() { return list.size(); }

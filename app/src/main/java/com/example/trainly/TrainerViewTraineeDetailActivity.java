@@ -125,7 +125,7 @@ public class TrainerViewTraineeDetailActivity extends AppCompatActivity {
             int calories = c.getInt(1);
             String status = c.getString(2);
 
-            list.add(new WorkoutHistoryItem("Workout", date, calories, status));
+            list.add(new WorkoutHistoryItem("Workout", calories, status, date));
         }
         c.close();
 

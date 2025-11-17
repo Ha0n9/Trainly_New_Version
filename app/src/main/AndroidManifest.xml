@@ -13,6 +13,9 @@
             android:name=".TrainerViewTraineeDetailActivity"
             android:exported="false" />
         <activity
+            android:name=".TrainerPendingRequestsActivity"
+            android:exported="false" />
+        <activity
             android:name=".NotificationActivity"
             android:exported="false" />
         <activity
@@ -23,12 +26,6 @@
             android:exported="false" />
         <activity
             android:name=".TrainerListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".EditProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ChooseTrainerActivity"
             android:exported="false" />
         <activity
             android:name=".BMIActivity"

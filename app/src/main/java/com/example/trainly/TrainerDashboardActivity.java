@@ -3,6 +3,8 @@ package com.example.trainly;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +13,13 @@ import androidx.cardview.widget.CardView;
 public class TrainerDashboardActivity extends AppCompatActivity {
 
     TextView tvTrainerGreeting, tvStatClients, tvStatPlans, tvStatAssigned;
+    TextView tvPendingCount, tvNotificationBadge;
+
     CardView cardCreatePlan, cardAssignWorkout, cardViewProgress, cardSendReminder;
+
+    CardView cardPendingRequests, cardMyTrainees;
+
+    ImageView icNotification, btnLogout;
 
     DatabaseHelper db;
     String email;
@@ -31,6 +39,8 @@ public class TrainerDashboardActivity extends AppCompatActivity {
         initViews();
         loadTrainerInfo();
         loadStats();
+        loadPendingCount();
+        loadNotificationBadge();
         setupClicks();
     }
 
@@ -40,10 +50,18 @@ public class TrainerDashboardActivity extends AppCompatActivity {
         tvStatPlans = findViewById(R.id.tvStatPlans);
         tvStatAssigned = findViewById(R.id.tvStatAssigned);
 
+        tvPendingCount = findViewById(R.id.tvPendingCount);
+        tvNotificationBadge = findViewById(R.id.tvNotificationBadge);
+
         cardCreatePlan = findViewById(R.id.cardCreatePlan);
         cardAssignWorkout = findViewById(R.id.cardAssignWorkout);
         cardViewProgress = findViewById(R.id.cardViewProgress);
         cardSendReminder = findViewById(R.id.cardSendReminder);
+        cardPendingRequests = findViewById(R.id.cardPendingRequests);
+        cardMyTrainees = findViewById(R.id.cardMyTrainees);
+
+        icNotification = findViewById(R.id.icNotification);
+        btnLogout = findViewById(R.id.btnLogout);
     }
 
     private void loadTrainerInfo() {
@@ -86,7 +104,61 @@ public class TrainerDashboardActivity extends AppCompatActivity {
         c3.close();
     }
 
+    private void loadPendingCount() {
+        Cursor c = db.getReadableDatabase().rawQuery(
+                "SELECT COUNT(*) FROM trainer_requests WHERE trainer_id=? AND status='pending'",
+                new String[]{String.valueOf(trainerId)}
+        );
+
+        if (c.moveToFirst()) {
+            int count = c.getInt(0);
+            tvPendingCount.setText(count + " request" + (count != 1 ? "s" : ""));
+        }
+
+        c.close();
+    }
+
+    private void loadNotificationBadge() {
+        Cursor c = db.getReadableDatabase().rawQuery(
+                "SELECT COUNT(*) FROM notifications WHERE user_id=? AND is_read=0",
+                new String[]{String.valueOf(trainerId)}
+        );
+
+        if (c.moveToFirst()) {
+            int count = c.getInt(0);
+            if (count > 0) {
+                tvNotificationBadge.setText(String.valueOf(count));
+                tvNotificationBadge.setVisibility(View.VISIBLE);
+            } else {
+                tvNotificationBadge.setVisibility(View.GONE);
+            }
+        }
+
+        c.close();
+    }
+
     private void setupClicks() {
+        // Top bar actions
+        icNotification.setOnClickListener(v ->
+                startActivity(new Intent(this, NotificationActivity.class)
+                        .putExtra("user_id", trainerId)));
+
+
+        btnLogout.setOnClickListener(v -> {
+            startActivity(new Intent(this, LoginActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            finish();
+        });
+
+        // New cards
+        cardPendingRequests.setOnClickListener(v ->
+                startActivity(new Intent(this, TrainerPendingRequestsActivity.class)
+                        .putExtra("trainerId", trainerId)));
+
+        cardMyTrainees.setOnClickListener(v ->
+                startActivity(new Intent(this, TrainerTraineeListActivity.class)
+                        .putExtra("trainerId", trainerId)));
+
         cardCreatePlan.setOnClickListener(v ->
                 startActivity(new Intent(this, CreateWorkoutPlanActivity.class)
                         .putExtra("trainer_id", trainerId)));
@@ -102,5 +174,16 @@ public class TrainerDashboardActivity extends AppCompatActivity {
         cardSendReminder.setOnClickListener(v ->
                 startActivity(new Intent(this, TrainerReminderActivity.class)
                         .putExtra("trainer_id", trainerId)));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Refresh counts when returning to dashboard
+        if (trainerId != -1) {
+            loadStats();
+            loadPendingCount();
+            loadNotificationBadge();
+        }
     }
 }

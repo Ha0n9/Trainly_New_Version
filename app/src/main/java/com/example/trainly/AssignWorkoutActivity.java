@@ -47,12 +47,22 @@ public class AssignWorkoutActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
         trainerId = getIntent().getIntExtra("trainer_id", -1);
 
+        int preselectedTraineeId = getIntent().getIntExtra("preselected_trainee_id", -1);
+
         spTrainee = findViewById(R.id.spTrainee);
         spPlan = findViewById(R.id.spPlan);
         btnAssign = findViewById(R.id.btnAssignWorkout);
 
         loadTrainees();
         loadPlans();
+
+        // Auto-select trainee if preselected
+        if (preselectedTraineeId != -1) {
+            int position = traineeIds.indexOf(preselectedTraineeId);
+            if (position != -1) {
+                spTrainee.setSelection(position);
+            }
+        }
 
         btnAssign.setOnClickListener(v -> {
             if (traineeIds.isEmpty() || planIds.isEmpty()) {
@@ -75,6 +85,8 @@ public class AssignWorkoutActivity extends AppCompatActivity {
                 Toast.makeText(this, "Failed to assign workout", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Workout assigned", Toast.LENGTH_SHORT).show();
+                setResult(RESULT_OK);
+                finish();
             }
         });
     }
