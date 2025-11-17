@@ -49,7 +49,19 @@ public class CalendarActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
 
         email = getIntent().getStringExtra("email");
+        // Check for null or invalid email
+        if (email == null || email.isEmpty()) {
+            finish();
+            return;
+        }
+
         traineeId = db.getUserIdByEmail(email);
+
+        // Check for invalid traineeId
+        if (traineeId <= 0) {
+            finish();
+            return;
+        }
 
         calendarView = findViewById(R.id.calendarView);
         recycler = findViewById(R.id.recyclerCalendarWorkouts);
