@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Trainly">
         <activity
+            android:name=".NotificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TrainerTraineeListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CurrentTrainerActivity"
+            android:exported="false" />
+        <activity
             android:name=".TrainerListActivity"
             android:exported="false" />
         <activity

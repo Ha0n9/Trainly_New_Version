@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/card_dark"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:layout_marginBottom="10dp">
+
+    <TextView
+        android:id="@+id/tvTraineeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trainee Name"
+        android:textSize="18sp"
+        android:textColor="@color/primary_orange"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvTraineeEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="email@email.com"
+        android:textSize="14sp"
+        android:textColor="@color/text_secondary"
+        android:paddingTop="5dp"/>
+</LinearLayout>

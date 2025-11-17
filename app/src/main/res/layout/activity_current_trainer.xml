@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@color/background_dark">
+
+    <TextView
+        android:id="@+id/tvCurrentTrainerTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Trainer"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary"
+        android:paddingBottom="20dp"
+        />
+
+    <TextView
+        android:id="@+id/tvTrainerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trainer Name"
+        android:textSize="18sp"
+        android:textColor="@color/primary_orange"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvTrainerEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="trainer@email.com"
+        android:textColor="@color/text_secondary"
+        android:paddingTop="6dp"/>
+
+    <Button
+        android:id="@+id/btnChangeTrainer"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Change Trainer"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="@color/primary_orange"
+        android:textColor="@color/background_dark"/>
+</LinearLayout>

@@ -99,5 +99,12 @@ public class ClientProfileActivity extends AppCompatActivity {
             i.putExtra("email", email);
             startActivity(i);
         });
+
+        btnNotifications.setOnClickListener(v -> {
+            Intent i = new Intent(this, NotificationActivity.class);
+            i.putExtra("userId", traineeId);
+            startActivity(i);
+        });
+
     }
 }

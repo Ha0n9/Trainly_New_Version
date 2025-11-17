@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "trainly.db";
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 4;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -99,6 +99,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(trainer_id) REFERENCES users(id), " +
                 "FOREIGN KEY(trainee_id) REFERENCES users(id))");
 
+        // NOTIFICATIONS TABLE
+        db.execSQL("CREATE TABLE notifications (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "user_id INTEGER, " +              // Who gonna receive the notification
+                "message TEXT, " +
+                "timestamp TEXT, " +
+                "is_read INTEGER DEFAULT 0, " +
+                "FOREIGN KEY(user_id) REFERENCES users(id))");
+
 
         // DEFAULT TRAINER ACCOUNT
         db.execSQL("INSERT INTO users (name, email, password, age, height, weight, role) " +
@@ -107,14 +116,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS trainer_trainee");
+        db.execSQL("DROP TABLE IF EXISTS trainer_requests");
         db.execSQL("DROP TABLE IF EXISTS meals");
         db.execSQL("DROP TABLE IF EXISTS workout_history");
         db.execSQL("DROP TABLE IF EXISTS assigned_workouts");
         db.execSQL("DROP TABLE IF EXISTS exercises");
         db.execSQL("DROP TABLE IF EXISTS workout_plans");
         db.execSQL("DROP TABLE IF EXISTS users");
+        db.execSQL("DROP TABLE IF EXISTS notifications");
         onCreate(db);
     }
+
 
     // ====== CREATE USER (SIGNUP) ======s
     public boolean createUser(String name, String email, String password,
@@ -251,6 +264,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put("status", "accepted");
         cv.put("date_updated", String.valueOf(System.currentTimeMillis()));
         db.update("trainer_requests", cv, "id=?", new String[]{String.valueOf(requestId)});
+        insertNotification(traineeId, "Your trainer request has been accepted!");
 
         // Add to trainer_trainee relation
         ContentValues relation = new ContentValues();
@@ -261,13 +275,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Trainer REJECT trainee (ith reason)
-    public void rejectTrainerRequest(int requestId, String reason) {
+    public void rejectTrainerRequest(int requestId, int traineeId, String reason) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
         cv.put("status", "rejected");
         cv.put("reason", reason);
         cv.put("date_updated", String.valueOf(System.currentTimeMillis()));
+        insertNotification(traineeId, "Your trainer request was rejected: " + reason);
 
         db.update("trainer_requests", cv, "id=?", new String[]{String.valueOf(requestId)});
     }
@@ -317,7 +332,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         return db.rawQuery(
-                "SELECT u.id, u.name, u.email FROM trainer_trainee tt " +
+                "SELECT u.id AS trainer_id, " +
+                        "u.name AS trainer_name, " +
+                        "u.email AS trainer_email " +
+                        "FROM trainer_trainee tt " +
                         "JOIN users u ON tt.trainer_id = u.id " +
                         "WHERE tt.trainee_id=?",
                 new String[]{String.valueOf(traineeId)}
@@ -628,5 +646,65 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null
         );
     }
+
+    // Unassign: trainee removes current trainer
+    public boolean unassignTrainer(int traineeId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Get trainer first
+        Cursor c = db.rawQuery(
+                "SELECT trainer_id FROM trainer_trainee WHERE trainee_id=?",
+                new String[]{String.valueOf(traineeId)}
+        );
+
+        if (!c.moveToFirst()) {
+            c.close();
+            return false; // no trainer to unassign
+        }
+
+        int trainerId = c.getInt(0);
+        c.close();
+
+        // 1. Delete trainer_trainee relation
+        db.delete("trainer_trainee", "trainee_id=?", new String[]{String.valueOf(traineeId)});
+        insertNotification(trainerId, "A trainee has unassigned from you.");
+
+        // 2. Mark previous requests as cancelled
+        ContentValues cv = new ContentValues();
+        cv.put("status", "cancelled");
+        cv.put("date_updated", String.valueOf(System.currentTimeMillis()));
+
+        db.update("trainer_requests", cv,
+                "trainee_id=? AND trainer_id=? AND status='accepted'",
+                new String[]{
+                        String.valueOf(traineeId),
+                        String.valueOf(trainerId)
+                });
+
+        return true;
+    }
+
+    public void insertNotification(int userId, String message) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put("user_id", userId);
+        cv.put("message", message);
+        cv.put("timestamp", String.valueOf(System.currentTimeMillis()));
+        cv.put("is_read", 0);
+
+        db.insert("notifications", null, cv);
+    }
+
+    public Cursor getNotifications(int userId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        return db.rawQuery(
+                "SELECT id, message, timestamp, is_read " +
+                        "FROM notifications WHERE user_id=? ORDER BY timestamp DESC",
+                new String[]{String.valueOf(userId)}
+        );
+    }
+
 
 }

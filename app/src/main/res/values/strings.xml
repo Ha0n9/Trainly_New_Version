@@ -44,6 +44,7 @@
     <string name="card_meals">Meals</string>
     <string name="card_edit_profile">Edit Profile</string>
     <string name="card_choose_trainer">Choose Trainer</string>
+    <string name="card_notification">Notification</string>
     <string name="card_bmi_calculator">BMI Calculator</string>
     <string name="card_workout_calendar">Workout Calendar</string>
 

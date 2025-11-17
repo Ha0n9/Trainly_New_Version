@@ -1,0 +1,56 @@
+package com.example.trainly;
+
+import android.database.Cursor;
+import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+
+public class TrainerTraineeListActivity extends AppCompatActivity {
+
+    RecyclerView recycler;
+    DatabaseHelper db;
+    int trainerId;
+    ArrayList<TrainerRequestItem> trainees = new ArrayList<>(); // reuse model
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_trainer_trainee_list);
+
+        recycler = findViewById(R.id.recyclerTrainerTrainees);
+        recycler.setLayoutManager(new LinearLayoutManager(this));
+
+        db = new DatabaseHelper(this);
+
+        trainerId = getIntent().getIntExtra("trainerId", -1);
+
+        loadTrainees();
+    }
+
+    private void loadTrainees() {
+        Cursor c = db.getTrainerTrainees(trainerId);
+
+        trainees.clear();
+
+        while (c.moveToNext()) {
+            int traineeId = c.getInt(0);
+            String name = c.getString(1);
+            String email = c.getString(2);
+            int age = c.getInt(3);
+            int height = c.getInt(4);
+            int weight = c.getInt(5);
+
+            trainees.add(new TrainerRequestItem(-1, traineeId, name, email, age, height, weight));
+        }
+
+        c.close();
+
+        TrainerTraineeListAdapter adapter =
+                new TrainerTraineeListAdapter(this, trainees);
+        recycler.setAdapter(adapter);
+    }
+}
