@@ -14,7 +14,10 @@ public class ClientProfileActivity extends AppCompatActivity {
     TextView tvUserFullname, tvUserRole;
     TextView tvStatWorkouts, tvStatCalories, tvStatWeight;
 
-    CardView cardWorkouts, cardProgress, cardMeals, cardEditProfile, cardBMICalculator, cardWorkoutCalendar, cardChooseTrainer;
+    CardView cardWorkouts, cardProgress, cardMeals, cardEditProfile, cardBMICalculator,
+            cardWorkoutCalendar, cardChooseTrainer, cardNotification;
+
+    int traineeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class ClientProfileActivity extends AppCompatActivity {
         cardBMICalculator = findViewById(R.id.cardBMICalculator);
         cardWorkoutCalendar = findViewById(R.id.cardWorkoutCalendar);
         cardChooseTrainer = findViewById(R.id.cardChooseTrainer);
+        cardNotification = findViewById(R.id.cardNotificaton);
 
         // get user info
         String name = getIntent().getStringExtra("name");
@@ -52,22 +56,22 @@ public class ClientProfileActivity extends AppCompatActivity {
 
         // ===== LOAD STATS =====
         DatabaseHelper db = new DatabaseHelper(this);
-        int userId = db.getUserIdByEmail(email);
+        traineeId = db.getUserIdByEmail(email);
 
-        tvStatWorkouts.setText(String.valueOf(db.getCompletedWorkouts(userId)));
-        tvStatCalories.setText(String.valueOf(db.getTotalCalories(userId)));
+        tvStatWorkouts.setText(String.valueOf(db.getCompletedWorkouts(traineeId)));
+        tvStatCalories.setText(String.valueOf(db.getTotalCalories(traineeId)));
         tvStatWeight.setText(db.getUserWeightByEmail(email) + " kg");
 
         // card clicks
         cardWorkouts.setOnClickListener(v -> {
             Intent i = new Intent(this, ClientWorkoutsActivity.class);
-            i.putExtra("email", getIntent().getStringExtra("email"));
+            i.putExtra("email", email);
             startActivity(i);
         });
 
         cardProgress.setOnClickListener(v -> {
             Intent i = new Intent(this, ClientProgressActivity.class);
-            i.putExtra("email", getIntent().getStringExtra("email"));
+            i.putExtra("email", email);
             startActivity(i);
         });
 
@@ -100,11 +104,10 @@ public class ClientProfileActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-        btnNotifications.setOnClickListener(v -> {
+        cardNotification.setOnClickListener(v -> {
             Intent i = new Intent(this, NotificationActivity.class);
             i.putExtra("userId", traineeId);
             startActivity(i);
         });
-
     }
 }

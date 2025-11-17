@@ -56,11 +56,26 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.ViewHold
         Cursor c = db.getTraineeRequests(traineeId);
         if (c != null) {
             while (c.moveToNext()) {
-                int trainerIdCol = c.getInt(c.getColumnIndex("trainer_id"));
-                if (trainerIdCol == trainerId) {
-                    requestStatus = c.getString(c.getColumnIndex("status"));
-                    break;
+                // Fix: Lấy trainer_id từ JOIN query
+                // Query trả về: r.id, u.name AS trainer_name, r.status, r.reason
+                // Cần thêm trainer_id vào query
+                int ridCol = c.getColumnIndex("id");
+
+                // Tạm thời check bằng cách lấy request details
+                Cursor detailCursor = db.getReadableDatabase().rawQuery(
+                        "SELECT trainer_id, status FROM trainer_requests WHERE id=?",
+                        new String[]{String.valueOf(c.getInt(0))}
+                );
+
+                if (detailCursor.moveToFirst()) {
+                    int trainerIdFromRequest = detailCursor.getInt(0);
+                    if (trainerIdFromRequest == trainerId) {
+                        requestStatus = detailCursor.getString(1);
+                        detailCursor.close();
+                        break;
+                    }
                 }
+                detailCursor.close();
             }
             c.close();
         }
@@ -72,20 +87,26 @@ public class TrainerAdapter extends RecyclerView.Adapter<TrainerAdapter.ViewHold
             h.btnRequest.setVisibility(View.GONE);
             h.status.setVisibility(View.VISIBLE);
             h.status.setText("Accepted");
+            h.status.setTextColor(context.getResources().getColor(android.R.color.holo_green_light));
             return;
         }
 
         // ---- PENDING ----
         if ("pending".equalsIgnoreCase(requestStatus)) {
             h.btnRequest.setEnabled(false);
+            h.btnRequest.setText("Pending");
             h.status.setVisibility(View.VISIBLE);
-            h.status.setText("Pending");
+            h.status.setText("Waiting for response");
+            h.status.setTextColor(context.getResources().getColor(android.R.color.holo_orange_light));
             return;
         }
 
-        // ---- DEFAULT (NO REQUEST YET) ----
-        h.btnRequest.setText("Request");
+        // ---- REJECTED ----
+        if ("rejected".equalsIgnoreCase(requestStatus)) {
+            h.btnRequest.setText("Request Again");
+        }
 
+        // ---- DEFAULT (NO REQUEST YET OR CAN REQUEST AGAIN) ----
         h.btnRequest.setOnClickListener(v -> {
             boolean success = db.sendTrainerRequest(traineeId, trainerId);
 
