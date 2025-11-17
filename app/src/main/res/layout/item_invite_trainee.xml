@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/card_dark"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_marginBottom="10dp">
+
+    <TextView
+        android:id="@+id/tvTraineeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trainee Name"
+        android:textSize="18sp"
+        android:textColor="@color/text_primary"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvTraineeEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="email@example.com"
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp"
+        android:paddingTop="4dp"/>
+
+    <TextView
+        android:id="@+id/tvTraineeInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Age • Height • Weight"
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp"
+        android:paddingTop="2dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="right"
+        android:paddingTop="12dp">
+
+        <Button
+            android:id="@+id/btnInviteTrainee"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="Send Invitation"
+            android:textSize="12sp"
+            android:backgroundTint="@color/primary_orange"
+            android:textColor="@color/background_dark"/>
+    </LinearLayout>
+
+</LinearLayout>

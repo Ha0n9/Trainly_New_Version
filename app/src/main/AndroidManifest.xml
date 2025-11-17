@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Trainly">
         <activity
+            android:name=".TrainerInviteTraineeActivity"
+            android:exported="false" />
+        <activity
             android:name=".TrainerViewTraineeDetailActivity"
             android:exported="false" />
         <activity

@@ -14,11 +14,8 @@ public class TrainerDashboardActivity extends AppCompatActivity {
 
     TextView tvTrainerGreeting, tvStatClients, tvStatPlans, tvStatAssigned;
     TextView tvPendingCount, tvNotificationBadge;
-
     CardView cardCreatePlan, cardAssignWorkout, cardViewProgress, cardSendReminder;
-
-    CardView cardPendingRequests, cardMyTrainees;
-
+    CardView cardPendingRequests, cardMyTrainees, cardInviteTrainee;
     ImageView icNotification, btnLogout;
 
     DatabaseHelper db;
@@ -49,7 +46,6 @@ public class TrainerDashboardActivity extends AppCompatActivity {
         tvStatClients = findViewById(R.id.tvStatClients);
         tvStatPlans = findViewById(R.id.tvStatPlans);
         tvStatAssigned = findViewById(R.id.tvStatAssigned);
-
         tvPendingCount = findViewById(R.id.tvPendingCount);
         tvNotificationBadge = findViewById(R.id.tvNotificationBadge);
 
@@ -59,6 +55,7 @@ public class TrainerDashboardActivity extends AppCompatActivity {
         cardSendReminder = findViewById(R.id.cardSendReminder);
         cardPendingRequests = findViewById(R.id.cardPendingRequests);
         cardMyTrainees = findViewById(R.id.cardMyTrainees);
+        cardInviteTrainee = findViewById(R.id.cardInviteTrainee);
 
         icNotification = findViewById(R.id.icNotification);
         btnLogout = findViewById(R.id.btnLogout);
@@ -109,12 +106,10 @@ public class TrainerDashboardActivity extends AppCompatActivity {
                 "SELECT COUNT(*) FROM trainer_requests WHERE trainer_id=? AND status='pending'",
                 new String[]{String.valueOf(trainerId)}
         );
-
         if (c.moveToFirst()) {
             int count = c.getInt(0);
             tvPendingCount.setText(count + " request" + (count != 1 ? "s" : ""));
         }
-
         c.close();
     }
 
@@ -123,7 +118,6 @@ public class TrainerDashboardActivity extends AppCompatActivity {
                 "SELECT COUNT(*) FROM notifications WHERE user_id=? AND is_read=0",
                 new String[]{String.valueOf(trainerId)}
         );
-
         if (c.moveToFirst()) {
             int count = c.getInt(0);
             if (count > 0) {
@@ -133,7 +127,6 @@ public class TrainerDashboardActivity extends AppCompatActivity {
                 tvNotificationBadge.setVisibility(View.GONE);
             }
         }
-
         c.close();
     }
 
@@ -142,7 +135,6 @@ public class TrainerDashboardActivity extends AppCompatActivity {
         icNotification.setOnClickListener(v ->
                 startActivity(new Intent(this, NotificationActivity.class)
                         .putExtra("user_id", trainerId)));
-
 
         btnLogout.setOnClickListener(v -> {
             startActivity(new Intent(this, LoginActivity.class)
@@ -159,6 +151,11 @@ public class TrainerDashboardActivity extends AppCompatActivity {
                 startActivity(new Intent(this, TrainerTraineeListActivity.class)
                         .putExtra("trainerId", trainerId)));
 
+        cardInviteTrainee.setOnClickListener(v ->
+                startActivity(new Intent(this, TrainerInviteTraineeActivity.class)
+                        .putExtra("trainerId", trainerId)));
+
+        // Existing cards
         cardCreatePlan.setOnClickListener(v ->
                 startActivity(new Intent(this, CreateWorkoutPlanActivity.class)
                         .putExtra("trainer_id", trainerId)));
