@@ -16,10 +16,21 @@
             android:id="@+id/tvMealsTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:text="@string/meals_title"
+            android:layout_marginBottom="8dp"
+            android:text="Track Meals"
             android:textColor="@color/text_primary"
-            android:textSize="22sp"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <!-- NEW: Total Calories Today -->
+        <TextView
+            android:id="@+id/tvTotalCaloriesToday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Total Today: 0 kcal"
+            android:textColor="@color/primary_orange"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <!-- Meal name -->
@@ -28,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/card_dark"
-            android:hint="@string/meals_name_hint"
+            android:hint="Meal name (e.g., Breakfast)"
             android:padding="12dp"
             android:textColor="@color/text_primary"
             android:textColorHint="@color/text_secondary" />
@@ -40,7 +51,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="12dp"
             android:background="@color/card_dark"
-            android:hint="@string/meals_calories_hint"
+            android:hint="Calories (e.g., 500)"
             android:inputType="number"
             android:padding="12dp"
             android:textColor="@color/text_primary"
@@ -53,8 +64,25 @@
             android:layout_height="50dp"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/primary_orange"
-            android:text="@string/meals_add_btn"
+            android:text="Add Meal"
             android:textColor="@color/background_dark" />
+
+        <!-- Weekly Chart Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Weekly Calories"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Bar Chart -->
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barChart"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="12dp"/>
 
         <!-- List title -->
         <TextView
@@ -62,23 +90,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="@string/meals_today_title"
+            android:layout_marginBottom="12dp"
+            android:text="Today's Meals (swipe to delete)"
             android:textColor="@color/text_primary"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
-
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/barChart"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="20dp"/>
 
         <!-- Meal list -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMeals"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="8dp"/>
 
     </LinearLayout>
 

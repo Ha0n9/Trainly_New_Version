@@ -1,46 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_dark"
-    android:orientation="vertical"
-    android:padding="20dp">
+    android:fillViewport="true">
 
-    <TextView
-        android:id="@+id/tvCalendarTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Workout Calendar"
-        android:textSize="22sp"
-        android:textColor="@color/text_primary"
-        android:textStyle="bold"
-        android:layout_marginBottom="14dp"/>
-
-    <CalendarView
-        android:id="@+id/calendarView"
+    <LinearLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:dateTextAppearance="@style/CalendarDateText"
-        android:weekDayTextAppearance="@style/CalendarWeekText"
-        android:focusedMonthDateColor="@color/primary_orange"
-        android:unfocusedMonthDateColor="@color/text_secondary"
-        android:weekSeparatorLineColor="@color/card_dark"
-        android:selectedWeekBackgroundColor="@color/card_dark"
-        android:layout_marginBottom="20dp"/>
+        android:orientation="vertical"
+        android:padding="20dp">
 
-    <TextView
-        android:id="@+id/tvSelectedDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Workouts on this day"
-        android:textColor="@color/text_primary"
-        android:textSize="18sp"
-        android:layout_marginBottom="10dp"/>
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvCalendarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Workout Calendar"
+            android:textSize="24sp"
+            android:textColor="@color/text_primary"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerCalendarWorkouts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <!-- Calendar Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/card_dark"
+            android:elevation="4dp"
+            android:padding="8dp">
 
-</LinearLayout>
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:dateTextAppearance="@style/CalendarDateText"
+                android:weekDayTextAppearance="@style/CalendarWeekText"
+                android:focusedMonthDateColor="@color/primary_orange"
+                android:unfocusedMonthDateColor="@color/text_secondary"
+                android:weekSeparatorLineColor="@color/text_secondary"
+                android:selectedWeekBackgroundColor="@color/primary_orange"
+                android:background="@color/card_dark"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Selected Date Display -->
+        <TextView
+            android:id="@+id/tvSelectedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Workout Count -->
+        <TextView
+            android:id="@+id/tvWorkoutCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 workouts"
+            android:textColor="@color/primary_orange"
+            android:textSize="14sp"
+            android:layout_marginBottom="12dp"
+            android:visibility="gone"/>
+
+        <!-- Workouts List -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerCalendarWorkouts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- Empty State -->
+        <LinearLayout
+            android:id="@+id/tvEmptyState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="40dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📅"
+                android:textSize="48sp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No workouts on this day"
+                android:textColor="@color/text_secondary"
+                android:textSize="16sp"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select another date or start a workout!"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:textAlignment="center"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

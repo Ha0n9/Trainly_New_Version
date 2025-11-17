@@ -13,9 +13,15 @@ import java.util.List;
 public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
 
     List<Workout> list;
+    OnItemClickListener clickListener;
 
-    public WorkoutAdapter(List<Workout> list) {
+    public interface OnItemClickListener {
+        void onWorkoutClick(Workout workout);
+    }
+
+    public WorkoutAdapter(List<Workout> list, OnItemClickListener listener) {
         this.list = list;
+        this.clickListener = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -43,6 +49,14 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHold
         h.tvTitle.setText(w.title);
         h.tvSubtitle.setText(w.subtitle);
         h.cbDone.setChecked(w.completed);
+        h.cbDone.setEnabled(false); // Read-only
+
+        // Click entire card to start workout
+        h.itemView.setOnClickListener(v -> {
+            if (clickListener != null && !w.completed) {
+                clickListener.onWorkoutClick(w);
+            }
+        });
     }
 
     @Override

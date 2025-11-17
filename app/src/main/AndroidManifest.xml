@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Trainly">
         <activity
+            android:name=".TodayWorkoutActivity"
+            android:exported="false" />
+        <activity
             android:name=".TraineeInvitationsActivity"
             android:exported="false" />
         <activity
@@ -57,19 +60,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- AUTH -->
-        <activity android:name=".LoginActivity" />
-        <!-- CLIENT MODULE -->
+        <activity android:name=".LoginActivity" /> <!-- CLIENT MODULE -->
         <activity android:name=".ClientProfileActivity" />
         <activity android:name=".ClientProgressActivity" />
         <activity android:name=".TrackMealsActivity" />
         <activity android:name=".WorkoutDetailsActivity" />
         <activity android:name=".ExerciseListActivity" />
         <activity android:name=".StartWorkoutActivity" />
-        <activity android:name=".WorkoutHistoryActivity" />
-        <!-- CLIENT PROFILE SETTINGS -->
+        <activity android:name=".WorkoutHistoryActivity" /> <!-- CLIENT PROFILE SETTINGS -->
         <activity android:name=".EditClientProfileActivity" />
-        <activity android:name=".ChangePasswordActivity" />
-        <!-- TRAINER MODULE -->
+        <activity android:name=".ChangePasswordActivity" /> <!-- TRAINER MODULE -->
         <activity android:name=".TrainerDashboardActivity" />
         <activity android:name=".CreateWorkoutPlanActivity" />
         <activity android:name=".AssignWorkoutActivity" />

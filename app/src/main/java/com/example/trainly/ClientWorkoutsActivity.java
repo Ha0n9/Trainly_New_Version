@@ -1,7 +1,10 @@
 package com.example.trainly;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.database.Cursor;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 import androidx.activity.EdgeToEdge;
@@ -17,6 +20,7 @@ public class ClientWorkoutsActivity extends AppCompatActivity {
 
     DatabaseHelper db;
     String email;
+    int traineeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +33,7 @@ public class ClientWorkoutsActivity extends AppCompatActivity {
         recyclerClientWorkouts = findViewById(R.id.recyclerClientWorkouts);
         workoutList = new ArrayList<>();
 
-        // ✔ Lấy email từ Intent
+        // Get email from Intent
         email = getIntent().getStringExtra("email");
 
         if (email == null) {
@@ -37,16 +41,34 @@ public class ClientWorkoutsActivity extends AppCompatActivity {
             return;
         }
 
-        // ✔ Lấy trainee ID
-        int traineeId = db.getUserIdByEmail(email);
+        // Get trainee ID
+        traineeId = db.getUserIdByEmail(email);
 
-        // ✔ Load workouts từ DB
+        // Load workouts from DB
         loadAssignedWorkouts(traineeId);
 
-        // ✔ Set adapter
-        workoutAdapter = new WorkoutAdapter(workoutList);
+        // Set adapter with click listener
+        workoutAdapter = new WorkoutAdapter(workoutList, workout -> {
+            // Start workout when clicked
+            Intent intent = new Intent(ClientWorkoutsActivity.this, StartWorkoutActivity.class);
+            intent.putExtra("email", email);
+            intent.putExtra("assignedWorkoutId", workout.getAssignedWorkoutId());
+            intent.putExtra("planId", workout.getPlanId());
+            intent.putExtra("workoutTitle", workout.getTitle());
+            startActivity(intent);
+        });
+
         recyclerClientWorkouts.setLayoutManager(new LinearLayoutManager(this));
         recyclerClientWorkouts.setAdapter(workoutAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Reload workouts when returning from StartWorkoutActivity
+        workoutList.clear();
+        loadAssignedWorkouts(traineeId);
+        workoutAdapter.notifyDataSetChanged();
     }
 
     private void loadAssignedWorkouts(int traineeId) {
@@ -55,14 +77,18 @@ public class ClientWorkoutsActivity extends AppCompatActivity {
         if (c == null) return;
 
         while (c.moveToNext()) {
+            int assignedWorkoutId = c.getInt(0);
             String title = c.getString(1);
             String description = c.getString(2);
             int completed = c.getInt(3);
+            int planId = c.getInt(4);
 
             workoutList.add(new Workout(
                     title,
                     description,
-                    completed == 1  // true = completed
+                    completed == 1,
+                    assignedWorkoutId,
+                    planId
             ));
         }
 

@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
@@ -45,13 +44,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         h.time.setText(time);
 
-        // Show unread indicator
+        // Show unread indicator with background and text color
         if (n.isRead == 0) {
-            h.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.card_dark));
+            // Unread: darker background, bold text
+            h.itemView.setBackgroundColor(context.getResources().getColor(R.color.card_dark));
             h.msg.setTextColor(context.getResources().getColor(R.color.text_primary));
+            h.msg.setTypeface(null, android.graphics.Typeface.BOLD);
         } else {
-            h.cardView.setCardBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+            // Read: transparent background, dimmed text
+            h.itemView.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
             h.msg.setTextColor(context.getResources().getColor(R.color.text_secondary));
+            h.msg.setTypeface(null, android.graphics.Typeface.NORMAL);
         }
 
         // Mark as read on click
@@ -67,15 +70,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public int getItemCount() { return list.size(); }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        CardView cardView;
         TextView msg, time;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            cardView = (CardView) itemView;
             msg = itemView.findViewById(R.id.tvMessage);
             time = itemView.findViewById(R.id.tvTimestamp);
         }
