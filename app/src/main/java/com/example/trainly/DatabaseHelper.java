@@ -603,4 +603,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return daily;
     }
 
+    // Get list workout base on date
+    public Cursor getWorkoutsByDay(int traineeId, long startDay, long endDay) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        return db.rawQuery(
+                "SELECT p.title, h.calories, h.status, h.date " +
+                        "FROM workout_history h " +
+                        "JOIN workout_plans p ON h.plan_id = p.id " +
+                        "WHERE h.trainee_id=? AND h.date BETWEEN ? AND ?",
+                new String[]{
+                        String.valueOf(traineeId),
+                        String.valueOf(startDay),
+                        String.valueOf(endDay)
+                }
+        );
+    }
+
+    // Get trainer
+    public Cursor getAllTrainers() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery(
+                "SELECT id, name, email FROM users WHERE role='trainer'",
+                null
+        );
+    }
+
 }

@@ -1,51 +1,78 @@
 package com.example.trainly;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.cardview.widget.CardView;
 
 public class BMIActivity extends AppCompatActivity {
 
-    EditText etWeight, etHeight;
-    TextView tvResult;
-    Button btnCalc;
+    EditText etBMIWeight, etBMIHeight;
+    Button btnBMICalc;
+    CardView cardBMIResult;
+    TextView tvBMIValue, tvBMICategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_bmiactivity);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
-        etWeight = findViewById(R.id.etBMIWeight);
-        etHeight = findViewById(R.id.etBMIHeight);
-        tvResult = findViewById(R.id.tvBMIResult);
-        btnCalc = findViewById(R.id.btnBMICalc);
+        etBMIWeight = findViewById(R.id.etBMIWeight);
+        etBMIHeight = findViewById(R.id.etBMIHeight);
+        btnBMICalc = findViewById(R.id.btnBMICalc);
+        cardBMIResult = findViewById(R.id.cardBMIResult);
+        tvBMIValue = findViewById(R.id.tvBMIValue);
+        tvBMICategory = findViewById(R.id.tvBMICategory);
 
-        btnCalc.setOnClickListener(v -> {
-            double w = Double.parseDouble(etWeight.getText().toString());
-            double h = Double.parseDouble(etHeight.getText().toString()) / 100; // cm to m
+        btnBMICalc.setOnClickListener(v -> calculateBMI());
+    }
 
-            double bmi = w / (h * h);
-            String category;
+    private void calculateBMI() {
+        String wStr = etBMIWeight.getText().toString().trim();
+        String hStr = etBMIHeight.getText().toString().trim();
 
-            if (bmi < 18.5) category = "Underweight";
-            else if (bmi < 24.9) category = "Normal";
-            else if (bmi < 29.9) category = "Overweight";
-            else category = "Obese";
+        if (wStr.isEmpty() || hStr.isEmpty()) {
+            Toast.makeText(this, "Please enter weight and height", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-            tvResult.setText("Your BMI: " + String.format("%.1f", bmi) + " (" + category + ")");
-        });
+        double weight = Double.parseDouble(wStr);
+        double height = Double.parseDouble(hStr) / 100.0; // convert cm → meters
+
+        if (weight <= 0 || height <= 0) {
+            Toast.makeText(this, "Invalid values", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        double bmi = weight / (height * height);
+
+        String category;
+        int color;
+
+        if (bmi < 18.5) {
+            category = "Underweight";
+            color = Color.parseColor("#4DA3FF"); // light blue
+        } else if (bmi < 24.9) {
+            category = "Normal";
+            color = Color.parseColor("#37D67A"); // green
+        } else if (bmi < 29.9) {
+            category = "Overweight";
+            color = Color.parseColor("#FFC107"); // yellow
+        } else {
+            category = "Obese";
+            color = Color.parseColor("#FF5252"); // red
+        }
+
+        tvBMIValue.setText(String.format("%.1f", bmi));
+        tvBMICategory.setText(category);
+        tvBMIValue.setTextColor(color);
+
+        cardBMIResult.setVisibility(View.VISIBLE);
     }
 }

@@ -14,6 +14,21 @@ public class WorkoutHistoryItem {
         this.isCompleted = isCompleted;
     }
 
+    public WorkoutHistoryItem(String title, int calories, String status, long rawTimestamp) {
+
+        this.title = title;
+
+        // summary = calor + status
+        this.summary = "Calories: " + calories + " • " + status;
+
+        // convert timestamp → "dd/MM/yyyy HH:mm"
+        this.date = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm")
+                .format(new java.util.Date(rawTimestamp));
+
+        this.isCompleted = status.equalsIgnoreCase("completed");
+    }
+
+
     public String getDate() {
         return date;
     }

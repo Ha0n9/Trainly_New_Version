@@ -14,12 +14,11 @@ public class ClientProfileActivity extends AppCompatActivity {
     TextView tvUserFullname, tvUserRole;
     TextView tvStatWorkouts, tvStatCalories, tvStatWeight;
 
-    CardView cardWorkouts, cardProgress, cardMeals, cardEditProfile;
+    CardView cardWorkouts, cardProgress, cardMeals, cardEditProfile, cardBMICalculator, cardWorkoutCalendar, cardChooseTrainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_client_profile);
 
         // bind UI
@@ -34,6 +33,9 @@ public class ClientProfileActivity extends AppCompatActivity {
         cardProgress = findViewById(R.id.cardProgress);
         cardMeals = findViewById(R.id.cardMeals);
         cardEditProfile = findViewById(R.id.cardEditProfile);
+        cardBMICalculator = findViewById(R.id.cardBMICalculator);
+        cardWorkoutCalendar = findViewById(R.id.cardWorkoutCalendar);
+        cardChooseTrainer = findViewById(R.id.cardChooseTrainer);
 
         // get user info
         String name = getIntent().getStringExtra("name");
@@ -77,6 +79,23 @@ public class ClientProfileActivity extends AppCompatActivity {
 
         cardEditProfile.setOnClickListener(v -> {
             Intent i = new Intent(this, EditClientProfileActivity.class);
+            i.putExtra("email", email);
+            startActivity(i);
+        });
+
+        cardBMICalculator.setOnClickListener(v -> {
+            Intent i = new Intent(this, BMIActivity.class);
+            startActivity(i);
+        });
+
+        cardWorkoutCalendar.setOnClickListener(v -> {
+            Intent i = new Intent(this, CalendarActivity.class);
+            i.putExtra("email", email);
+            startActivity(i);
+        });
+
+        cardChooseTrainer.setOnClickListener(v -> {
+            Intent i = new Intent(this, TrainerListActivity.class);
             i.putExtra("email", email);
             startActivity(i);
         });
