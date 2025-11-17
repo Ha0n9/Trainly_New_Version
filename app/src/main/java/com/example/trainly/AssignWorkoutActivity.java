@@ -46,12 +46,18 @@ public class AssignWorkoutActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
         trainerId = getIntent().getIntExtra("trainer_id", -1);
-
         int preselectedTraineeId = getIntent().getIntExtra("preselected_trainee_id", -1);
 
         spTrainee = findViewById(R.id.spTrainee);
         spPlan = findViewById(R.id.spPlan);
         btnAssign = findViewById(R.id.btnAssignWorkout);
+
+        // Check for null views
+        if (spTrainee == null || spPlan == null || btnAssign == null) {
+            Toast.makeText(this, "Failed to initialize UI", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         loadTrainees();
         loadPlans();
@@ -65,28 +71,39 @@ public class AssignWorkoutActivity extends AppCompatActivity {
         }
 
         btnAssign.setOnClickListener(v -> {
-            if (traineeIds.isEmpty() || planIds.isEmpty()) {
-                Toast.makeText(this, "No trainee or plan available", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            try {
+                if (traineeIds.isEmpty() || planIds.isEmpty()) {
+                    Toast.makeText(this, "No trainee or plan available", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-            int traineePos = spTrainee.getSelectedItemPosition();
-            int planPos = spPlan.getSelectedItemPosition();
+                int traineePos = spTrainee.getSelectedItemPosition();
+                int planPos = spPlan.getSelectedItemPosition();
 
-            int traineeId = traineeIds.get(traineePos);
-            int planId = planIds.get(planPos);
+                // Validate positions
+                if (traineePos < 0 || traineePos >= traineeIds.size() ||
+                        planPos < 0 || planPos >= planIds.size()) {
+                    Toast.makeText(this, "Invalid selection", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-            String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                    .format(new Date());
+                int traineeId = traineeIds.get(traineePos);
+                int planId = planIds.get(planPos);
 
-            long res = db.assignWorkout(traineeId, planId, today);
+                String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                        .format(new Date());
 
-            if (res == -1) {
-                Toast.makeText(this, "Failed to assign workout", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Workout assigned", Toast.LENGTH_SHORT).show();
-                setResult(RESULT_OK);
-                finish();
+                long res = db.assignWorkout(traineeId, planId, today);
+
+                if (res == -1) {
+                    Toast.makeText(this, "Failed to assign workout", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Workout assigned successfully!", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -95,59 +112,71 @@ public class AssignWorkoutActivity extends AppCompatActivity {
         traineeIds.clear();
         traineeNames.clear();
 
-        Cursor c = db.getAllClients();
-        if (c != null) {
-            while (c.moveToNext()) {
-                int id = c.getInt(0);
-                String name = c.getString(1);
-                String email = c.getString(2);
+        try {
+            Cursor c = db.getAllClients();
+            if (c != null) {
+                while (c.moveToNext()) {
+                    int id = c.getInt(0);
+                    String name = c.getString(1);
+                    String email = c.getString(2);
 
-                traineeIds.add(id);
-                // Nếu name rỗng thì dùng email
-                if (name == null || name.trim().isEmpty()) {
-                    traineeNames.add(email);
-                } else {
-                    traineeNames.add(name);
+                    traineeIds.add(id);
+                    // Nếu name rỗng thì dùng email
+                    if (name == null || name.trim().isEmpty()) {
+                        traineeNames.add(email != null ? email : "Unknown");
+                    } else {
+                        traineeNames.add(name);
+                    }
                 }
+                c.close();
             }
-            c.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
+        // Always set adapter, even if empty
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
                 traineeNames
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spTrainee.setAdapter(adapter);
+        if (spTrainee != null) {
+            spTrainee.setAdapter(adapter);
+        }
     }
 
     private void loadPlans() {
         planIds.clear();
         planTitles.clear();
 
-        if (trainerId == -1) {
-            return;
-        }
+        try {
+            if (trainerId != -1) {
+                Cursor c = db.getWorkoutPlansByTrainer(trainerId);
+                if (c != null) {
+                    while (c.moveToNext()) {
+                        int id = c.getInt(0);
+                        String title = c.getString(1);
 
-        Cursor c = db.getWorkoutPlansByTrainer(trainerId);
-        if (c != null) {
-            while (c.moveToNext()) {
-                int id = c.getInt(0);
-                String title = c.getString(1);
-
-                planIds.add(id);
-                planTitles.add(title);
+                        planIds.add(id);
+                        planTitles.add(title != null ? title : "Untitled Plan");
+                    }
+                    c.close();
+                }
             }
-            c.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
+        // Always set adapter, even if empty
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
                 planTitles
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spPlan.setAdapter(adapter);
+        if (spPlan != null) {
+            spPlan.setAdapter(adapter);
+        }
     }
 }

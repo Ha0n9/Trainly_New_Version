@@ -66,9 +66,8 @@ public class TrainerDashboardActivity extends AppCompatActivity {
                 "SELECT id, name FROM users WHERE email=?",
                 new String[]{email}
         );
-
         if (c.moveToFirst()) {
-            trainerId = c.getInt(0);
+            trainerId = c.getInt(0);  // Chỉ set nếu có data
             String name = c.getString(1);
             tvTrainerGreeting.setText("Welcome, " + name);
         }
