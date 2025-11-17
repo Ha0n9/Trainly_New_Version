@@ -1,7 +1,9 @@
 package com.example.trainly;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,16 +15,20 @@ public class ClientProfileActivity extends AppCompatActivity {
 
     TextView tvUserFullname, tvUserRole;
     TextView tvStatWorkouts, tvStatCalories, tvStatWeight;
+    TextView tvInvitationBadge;
 
     CardView cardWorkouts, cardProgress, cardMeals, cardEditProfile, cardBMICalculator,
-            cardWorkoutCalendar, cardChooseTrainer, cardNotification;
+            cardWorkoutCalendar, cardChooseTrainer, cardTrainerInvitations, cardNotification;
 
+    DatabaseHelper db;
     int traineeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_profile);
+
+        db = new DatabaseHelper(this);
 
         // bind UI
         tvUserFullname = findViewById(R.id.tvUserFullname);
@@ -31,6 +37,7 @@ public class ClientProfileActivity extends AppCompatActivity {
         tvStatWorkouts = findViewById(R.id.tvStatWorkouts);
         tvStatCalories = findViewById(R.id.tvStatCalories);
         tvStatWeight = findViewById(R.id.tvStatWeight);
+        tvInvitationBadge = findViewById(R.id.tvInvitationBadge);
 
         cardWorkouts = findViewById(R.id.cardWorkouts);
         cardProgress = findViewById(R.id.cardProgress);
@@ -39,6 +46,7 @@ public class ClientProfileActivity extends AppCompatActivity {
         cardBMICalculator = findViewById(R.id.cardBMICalculator);
         cardWorkoutCalendar = findViewById(R.id.cardWorkoutCalendar);
         cardChooseTrainer = findViewById(R.id.cardChooseTrainer);
+        cardTrainerInvitations = findViewById(R.id.cardTrainerInvitations);
         cardNotification = findViewById(R.id.cardNotificaton);
 
         // get user info
@@ -55,12 +63,14 @@ public class ClientProfileActivity extends AppCompatActivity {
         }
 
         // ===== LOAD STATS =====
-        DatabaseHelper db = new DatabaseHelper(this);
         traineeId = db.getUserIdByEmail(email);
 
         tvStatWorkouts.setText(String.valueOf(db.getCompletedWorkouts(traineeId)));
         tvStatCalories.setText(String.valueOf(db.getTotalCalories(traineeId)));
         tvStatWeight.setText(db.getUserWeightByEmail(email) + " kg");
+
+        // Load invitation badge
+        loadInvitationBadge();
 
         // card clicks
         cardWorkouts.setOnClickListener(v -> {
@@ -104,10 +114,41 @@ public class ClientProfileActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-        cardNotification.setOnClickListener(v -> {
-            Intent i = new Intent(this, NotificationActivity.class);
-            i.putExtra("userId", traineeId);
+        cardTrainerInvitations.setOnClickListener(v -> {
+            Intent i = new Intent(this, TraineeInvitationsActivity.class);
+            i.putExtra("traineeId", traineeId);
             startActivity(i);
         });
+
+        cardNotification.setOnClickListener(v -> {
+            Intent i = new Intent(this, NotificationActivity.class);
+            i.putExtra("user_id", traineeId);
+            startActivity(i);
+        });
+    }
+
+    private void loadInvitationBadge() {
+        Cursor c = db.getPendingTrainerInvitations(traineeId);
+        int count = 0;
+        if (c != null) {
+            count = c.getCount();
+            c.close();
+        }
+
+        if (count > 0) {
+            tvInvitationBadge.setText(String.valueOf(count));
+            tvInvitationBadge.setVisibility(View.VISIBLE);
+        } else {
+            tvInvitationBadge.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Refresh invitation badge when returning
+        if (traineeId != -1) {
+            loadInvitationBadge();
+        }
     }
 }

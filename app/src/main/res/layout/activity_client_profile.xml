@@ -414,7 +414,75 @@
       </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- CHOOSE TRAINER -->
+    <!-- TRAINER INVITATIONS (NEW) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardTrainerInvitations"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="14dp"
+        android:layout_height="80dp"
+        android:elevation="6dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/card_dark">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="horizontal"
+          android:gravity="center_vertical"
+          android:padding="20dp">
+
+        <ImageView
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/user_list"
+            app:tint="@color/primary_orange" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingStart="12dp">
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Trainer Invitations"
+              android:textColor="@color/text_primary"
+              android:textSize="18sp"
+              android:textStyle="bold" />
+
+          <!-- INVITATION BADGE -->
+          <FrameLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/tvInvitationBadge"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:text="0"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:background="@drawable/ic_history_failed"
+                android:visibility="gone" />
+          </FrameLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="›"
+            android:textColor="@color/primary_orange"
+            android:textSize="28sp" />
+      </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- NOTIFICATION -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardNotificaton"
         android:layout_width="match_parent"
