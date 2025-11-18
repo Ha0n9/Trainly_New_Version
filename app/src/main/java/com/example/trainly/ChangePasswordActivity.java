@@ -5,29 +5,26 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
+import android.widget.ImageButton;
+
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.widget.Toast;
-    public class ChangePasswordActivity extends AppCompatActivity {
 
+    public class ChangePasswordActivity extends AppCompatActivity {
         EditText etOldPass, etNewPass, etConfirmPass;
         Button btnChangePassword;
+        ImageButton btnBack;
         DatabaseHelper db;
         String email;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            EdgeToEdge.enable(this);
             setContentView(R.layout.activity_change_password);
-
-            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-                return insets;
-            });
 
             // Initialize database helper
             db = new DatabaseHelper(this);
@@ -46,9 +43,11 @@ import android.widget.Toast;
             etNewPass = findViewById(R.id.etNewPass);
             etConfirmPass = findViewById(R.id.etConfirmPass);
             btnChangePassword = findViewById(R.id.btnConfirmChangePass);
+            btnBack = findViewById(R.id.btnBack);
 
-            // Set button click listener
+            // Set button click listeners
             btnChangePassword.setOnClickListener(v -> handleChangePassword());
+            btnBack.setOnClickListener(v -> finish());
         }
 
         private void handleChangePassword() {

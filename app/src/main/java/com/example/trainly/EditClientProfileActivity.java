@@ -2,6 +2,7 @@ package com.example.trainly;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.content.Intent;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class EditClientProfileActivity extends AppCompatActivity {
 
     EditText etName, etAge, etHeight, etWeight;
-    Button btnSaveChanges;
+    Button btnSaveChanges, btnChangePassword;
 
     DatabaseHelper db;
     String email;
@@ -24,6 +25,7 @@ public class EditClientProfileActivity extends AppCompatActivity {
         etHeight = findViewById(R.id.etHeight);
         etWeight = findViewById(R.id.etWeight);
         btnSaveChanges = findViewById(R.id.btnSaveProfile);
+        btnChangePassword = findViewById(R.id.btnChangePassword);
 
         db = new DatabaseHelper(this);
 
@@ -37,6 +39,12 @@ public class EditClientProfileActivity extends AppCompatActivity {
         loadProfile();
 
         btnSaveChanges.setOnClickListener(v -> saveProfile());
+
+        btnChangePassword.setOnClickListener(v -> {
+            Intent i = new Intent(this, ChangePasswordActivity.class);
+            i.putExtra("email", email);
+            startActivity(i);
+        });
     }
 
     private void loadProfile() {
