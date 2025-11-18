@@ -124,8 +124,15 @@ public class TrainerViewTraineeDetailActivity extends AppCompatActivity {
             long date = c.getLong(0);
             int calories = c.getInt(1);
             String status = c.getString(2);
+            String planTitle = c.getString(3);
+            String exerciseNames = c.getString(4);
 
-            list.add(new WorkoutHistoryItem("Workout", calories, status, date));
+            // Use exercise names as title if available, otherwise use plan title
+            String displayTitle = (exerciseNames != null && !exerciseNames.isEmpty())
+                ? exerciseNames
+                : planTitle;
+
+            list.add(new WorkoutHistoryItem(displayTitle, calories, status, date));
         }
         c.close();
 

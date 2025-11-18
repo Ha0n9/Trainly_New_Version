@@ -56,14 +56,21 @@ public class WorkoutHistoryActivity extends AppCompatActivity {
 
             int calories = c.getInt(1);
             String status = c.getString(2);
+            String planTitle = c.getString(3);
+            String exerciseNames = c.getString(4);
 
             boolean completed = "completed".equals(status);
+
+            // Use exercise names as title if available, otherwise use plan title
+            String displayTitle = (exerciseNames != null && !exerciseNames.isEmpty())
+                ? exerciseNames
+                : (planTitle != null ? planTitle : (completed ? "Completed Workout" : "Workout Attempt"));
 
             String summary = calories + " kcal";
 
             historyList.add(new WorkoutHistoryItem(
                     dateStr,
-                    completed ? "Completed Workout" : "Workout Attempt",
+                    displayTitle,
                     summary,
                     completed
             ));

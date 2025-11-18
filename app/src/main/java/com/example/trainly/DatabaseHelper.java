@@ -611,8 +611,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery(
-                "SELECT date, calories, status FROM workout_history " +
-                        "WHERE trainee_id=? AND date >= ?",
+                "SELECT h.date, h.calories, h.status, p.title, " +
+                        "GROUP_CONCAT(e.name, ', ') as exercise_names " +
+                        "FROM workout_history h " +
+                        "JOIN workout_plans p ON h.plan_id = p.id " +
+                        "LEFT JOIN exercises e ON e.plan_id = p.id " +
+                        "WHERE h.trainee_id=? AND h.date >= ? " +
+                        "GROUP BY h.id, h.date, h.calories, h.status, p.title " +
+                        "ORDER BY h.date DESC",
                 new String[]{ String.valueOf(traineeId), String.valueOf(sevenDaysAgo) }
         );
     }
