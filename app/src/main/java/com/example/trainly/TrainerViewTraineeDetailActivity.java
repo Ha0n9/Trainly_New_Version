@@ -87,7 +87,7 @@ public class TrainerViewTraineeDetailActivity extends AppCompatActivity {
 
             tvName.setText(traineeName);
             tvEmail.setText(email);
-            tvAge.setText(age + " years old");
+            tvAge.setText(age + " years");
             tvHeight.setText(String.format("%.1f cm", height));
             tvWeight.setText(String.format("%.1f kg", weight));
 
