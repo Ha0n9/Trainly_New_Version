@@ -67,7 +67,7 @@ public class TrainerDashboardActivity extends AppCompatActivity {
                 new String[]{email}
         );
         if (c.moveToFirst()) {
-            trainerId = c.getInt(0);  // Chỉ set nếu có data
+            trainerId = c.getInt(0);  // Only set if has data
             String name = c.getString(1);
             tvTrainerGreeting.setText("Welcome, " + name);
         }

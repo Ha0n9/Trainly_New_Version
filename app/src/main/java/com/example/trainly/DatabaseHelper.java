@@ -232,13 +232,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         c.close();
 
+        // Get trainee name for notification message
+        String traineeName = "A trainee";
+        Cursor nameC = db.rawQuery(
+                "SELECT name FROM users WHERE id=?",
+                new String[]{String.valueOf(traineeId)}
+        );
+        if (nameC.moveToFirst()) {
+            traineeName = nameC.getString(0);
+        }
+        nameC.close();
+
         ContentValues cv = new ContentValues();
         cv.put("trainee_id", traineeId);
         cv.put("trainer_id", trainerId);
         cv.put("initiated_by", "trainee");
         cv.put("date_sent", String.valueOf(System.currentTimeMillis()));
 
-        return db.insert("trainer_requests", null, cv) != -1;
+        long result = db.insert("trainer_requests", null, cv);
+
+        // Send notification to trainer
+        if (result != -1) {
+            insertNotification(trainerId, traineeName + " has sent you a trainer request!");
+        }
+
+        return result != -1;
     }
 
     // Trainer send invitation to Trainee
@@ -997,6 +1015,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // ====== UPDATE PASSWORD ======
 
+    // ====== UPDATE PASSWORD ======
     public boolean updatePassword(String email, String oldPassword, String newPassword) {
         SQLiteDatabase db = this.getWritableDatabase();
 

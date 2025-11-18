@@ -87,7 +87,7 @@ public class TrainerViewTraineeDetailActivity extends AppCompatActivity {
 
             tvName.setText(traineeName);
             tvEmail.setText(email);
-            tvAge.setText(age);
+            tvAge.setText(age + " years old");
             tvHeight.setText(String.format("%.1f cm", height));
             tvWeight.setText(String.format("%.1f kg", weight));
 
@@ -133,6 +133,13 @@ public class TrainerViewTraineeDetailActivity extends AppCompatActivity {
                     : planTitle;
 
             list.add(new WorkoutHistoryItem(displayTitle, calories, status, date));
+        }
+        c.close();
+
+        if (list.isEmpty()) {
+            recyclerHistory.setVisibility(View.GONE);
+            tvEmptyHistory.setVisibility(View.VISIBLE);
+        } else {
             recyclerHistory.setVisibility(View.VISIBLE);
             tvEmptyHistory.setVisibility(View.GONE);
 
