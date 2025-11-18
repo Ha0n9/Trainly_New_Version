@@ -988,4 +988,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int deleted = db.delete("meals", "id=?", new String[]{String.valueOf(mealId)});
         return deleted > 0;
     }
+
+    // ====== UPDATE PASSWORD ======
+    public boolean updatePassword(String email, String oldPassword, String newPassword) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // First, verify old password is correct
+        Cursor c = db.rawQuery(
+                "SELECT id FROM users WHERE email=? AND password=?",
+                new String[]{email, oldPassword}
+        );
+
+        if (!c.moveToFirst()) {
+            c.close();
+            return false; // Old password is incorrect
+        }
+        c.close();
+
+        // Update to new password
+        ContentValues cv = new ContentValues();
+        cv.put("password", newPassword);
+
+        int rowsAffected = db.update("users", cv, "email=?", new String[]{email});
+        return rowsAffected > 0;
+    }
 }
