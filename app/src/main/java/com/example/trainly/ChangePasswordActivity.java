@@ -3,6 +3,7 @@ package com.example.trainly;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
         EditText etOldPass, etNewPass, etConfirmPass;
         Button btnChangePassword;
+        ImageButton btnBack;
         DatabaseHelper db;
         String email;
 
@@ -46,9 +48,11 @@ import android.widget.Toast;
             etNewPass = findViewById(R.id.etNewPass);
             etConfirmPass = findViewById(R.id.etConfirmPass);
             btnChangePassword = findViewById(R.id.btnConfirmChangePass);
+            btnBack = findViewById(R.id.btnBack);
 
-            // Set button click listener
+            // Set button click listeners
             btnChangePassword.setOnClickListener(v -> handleChangePassword());
+            btnBack.setOnClickListener(v -> finish());
         }
 
         private void handleChangePassword() {
