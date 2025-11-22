@@ -4,7 +4,9 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -41,6 +43,11 @@ public class AssignWorkoutActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
         trainerId = getIntent().getIntExtra("trainer_id", -1);
         int preselectedTraineeId = getIntent().getIntExtra("preselected_trainee_id", -1);
+
+        TextView toolbarTitle = findViewById(R.id.tvToolbarTitle);
+        if (toolbarTitle != null) toolbarTitle.setText(R.string.label_assign_workout);
+        ImageView btnBack = findViewById(R.id.btnBack);
+        if (btnBack != null) btnBack.setOnClickListener(v -> finish());
 
         spTrainee = findViewById(R.id.spTrainee);
         spPlan = findViewById(R.id.spPlan);

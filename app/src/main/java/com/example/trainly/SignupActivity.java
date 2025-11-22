@@ -3,6 +3,8 @@ package com.example.trainly;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +22,13 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         db = new DatabaseHelper(this);
+
+        TextView toolbarTitle = findViewById(R.id.tvToolbarTitle);
+        if (toolbarTitle != null) toolbarTitle.setText(R.string.signup_title);
+        ImageView btnBack = findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
 
         etName = findViewById(R.id.etSignupName);
         etEmail = findViewById(R.id.etSignupEmail);

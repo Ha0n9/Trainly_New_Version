@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,8 @@ public class StartWorkoutActivity extends AppCompatActivity {
     StartWorkoutAdapter adapter;
     TextView tvStartWorkoutTitle;
     Button btnCompleteWorkout;
+    TextView tvToolbarTitle;
+    ImageView btnBack;
 
     DatabaseHelper db;
     String email;
@@ -41,6 +44,8 @@ public class StartWorkoutActivity extends AppCompatActivity {
         recyclerStartWorkout = findViewById(R.id.recyclerStartWorkout);
         tvStartWorkoutTitle = findViewById(R.id.tvStartWorkoutTitle);
         btnCompleteWorkout = findViewById(R.id.btnCompleteWorkout);
+        tvToolbarTitle = findViewById(R.id.tvToolbarTitle);
+        btnBack = findViewById(R.id.btnBack);
 
         // Get data from Intent
         email = getIntent().getStringExtra("email");
@@ -59,6 +64,12 @@ public class StartWorkoutActivity extends AppCompatActivity {
         // Set title
         if (workoutTitle != null) {
             tvStartWorkoutTitle.setText(workoutTitle);
+            if (tvToolbarTitle != null) {
+                tvToolbarTitle.setText(workoutTitle);
+            }
+        }
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
         }
 
         // Load exercises from database
@@ -78,7 +89,9 @@ public class StartWorkoutActivity extends AppCompatActivity {
 
         if (c == null || c.getCount() == 0) {
             // No exercises found - show placeholder
-            exerciseList.add(new Exercise("No exercises assigned yet", "Check with your trainer"));
+            String planTitle = (workoutTitle != null && !workoutTitle.isEmpty()) ? workoutTitle : "Workout";
+            String planDesc = "Check with your trainer";
+            exerciseList.add(new Exercise(planTitle, planDesc));
             if (c != null) c.close();
             return;
         }
@@ -111,25 +124,39 @@ public class StartWorkoutActivity extends AppCompatActivity {
                 .setMessage("How many calories did you burn?")
                 .setPositiveButton("Complete", (dialog, which) -> {
                     String caloriesStr = etCalories.getText().toString().trim();
-
                     if (caloriesStr.isEmpty()) {
                         Toast.makeText(this, "Please enter calories", Toast.LENGTH_SHORT).show();
                         return;
                     }
-
                     int calories = Integer.parseInt(caloriesStr);
 
-                    // Mark as completed in assigned_workouts
                     boolean updated = db.markWorkoutAsCompleted(assignedWorkoutId);
-
-                    // Insert into workout_history
                     db.insertWorkoutHistory(traineeId, planId, calories, "completed");
 
                     if (updated) {
                         Toast.makeText(this, "Workout completed! Great job!", Toast.LENGTH_SHORT).show();
-                        finish(); // Return to ClientWorkoutsActivity
+                        finish();
                     } else {
                         Toast.makeText(this, "Error completing workout", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNeutralButton("Couldn't finish", (dialog, which) -> {
+                    String caloriesStr = etCalories.getText().toString().trim();
+                    int calories = 0;
+                    try {
+                        if (!caloriesStr.isEmpty()) {
+                            calories = Integer.parseInt(caloriesStr);
+                        }
+                    } catch (NumberFormatException ignored) {}
+
+                    boolean updated = db.markWorkoutAsCompleted(assignedWorkoutId);
+                    db.insertWorkoutHistory(traineeId, planId, calories, "failed");
+
+                    if (updated) {
+                        Toast.makeText(this, "Marked as not completed.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(this, "Error updating workout", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("Cancel", null)

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "trainly.db";
-    public static final int DB_VERSION = 5;
+    public static final int DB_VERSION = 7;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -113,6 +113,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // DEFAULT TRAINER ACCOUNT
         db.execSQL("INSERT INTO users (name, email, password, age, height, weight, role) " +
                 "VALUES ('Coach Mike', 'trainer@trainly.com', '123456', 30, 175, 75, 'trainer')");
+        db.execSQL("INSERT INTO users (name, email, password, age, height, weight, role) " +
+                "VALUES ('Coach Bob', 'trainer1@trainly.com', '123456', 30, 165, 67, 'trainer')");
+        db.execSQL("INSERT INTO users (name, email, password, age, height, weight, role) " +
+                "VALUES ('Coach Peter', 'trainer2@trainly.com', '123456', 30, 170,80, 'trainer')");
+        db.execSQL("INSERT INTO users (name, email, password, age, height, weight, role) " +
+                "VALUES ('Coach Johason', 'trainer3@trainly.com', '123456', 30, 180, 72, 'trainer')");
     }
 
     @Override
@@ -130,7 +136,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // ====== CREATE USER (SIGNUP) ======s
     public boolean createUser(String name, String email, String password,
                               int age, double height, double weight) {
-
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor check = db.rawQuery("SELECT id FROM users WHERE email=?", new String[]{email});

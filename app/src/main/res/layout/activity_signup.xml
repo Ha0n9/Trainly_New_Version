@@ -106,17 +106,17 @@
                 android:textColorHint="@color/text_secondary" />
 
             <!-- Confirm Password -->
-            <EditText
-                android:id="@+id/etSignupConfirmPass"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="12dp"
-                android:background="@color/card_dark"
-                android:hint="@string/signup_confirm_password"
-                android:inputType="textPassword"
-                android:padding="12dp"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_secondary" />
+        <EditText
+            android:id="@+id/etSignupConfirmPass"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/card_dark"
+            android:hint="@string/signup_confirm_password"
+            android:inputType="textPassword"
+            android:padding="12dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary" />
 
             <!-- Sign Up Button -->
             <Button
