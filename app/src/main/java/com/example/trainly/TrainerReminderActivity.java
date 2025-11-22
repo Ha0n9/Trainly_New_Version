@@ -55,9 +55,11 @@ public class TrainerReminderActivity extends AppCompatActivity {
             }
 
             int pos = spTraineeReminder.getSelectedItemPosition();
+            int traineeId = traineeIds.get(pos);
             String name = traineeNames.get(pos);
 
-            // Demo: chỉ show Toast, giả lập gửi reminder
+            db.insertNotification(traineeId, msg);
+
             Toast.makeText(this,
                     "Reminder sent to " + name + ":\n" + msg,
                     Toast.LENGTH_LONG).show();

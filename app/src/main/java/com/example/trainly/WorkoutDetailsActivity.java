@@ -27,6 +27,12 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
             return insets;
         });
 
+        // Bind views
+        tvTitle = findViewById(R.id.tvWorkoutTitle);
+        tvDescription = findViewById(R.id.tvWorkoutDescription);
+        btnViewExercises = findViewById(R.id.btnViewExercises);
+        btnStartWorkout = findViewById(R.id.btnStartWorkout);
+
         // Fake Data for UI
         tvTitle.setText("Push Day");
         tvDescription.setText("Chest + Shoulders + Triceps");
