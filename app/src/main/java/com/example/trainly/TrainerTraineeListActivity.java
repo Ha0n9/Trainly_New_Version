@@ -36,6 +36,8 @@ public class TrainerTraineeListActivity extends AppCompatActivity {
 
         trainerId = getIntent().getIntExtra("trainerId", -1);
 
+        TextView toolbarTitle = findViewById(R.id.tvToolbarTitle);
+        if (toolbarTitle != null) toolbarTitle.setText("My Trainees");
         btnBack.setOnClickListener(v -> finish());
 
         loadTrainees();

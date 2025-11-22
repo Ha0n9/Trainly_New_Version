@@ -3,6 +3,8 @@ package com.example.trainly;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +28,15 @@ public class TrainerListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_trainer_list);
 
         db = new DatabaseHelper(this);
+
+        TextView toolbarTitle = findViewById(R.id.tvToolbarTitle);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText("Choose Trainer");
+        }
+        ImageView btnBack = findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
 
         String email = getIntent().getStringExtra("email");
         traineeId = db.getUserIdByEmail(email);

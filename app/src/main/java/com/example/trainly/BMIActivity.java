@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,15 @@ public class BMIActivity extends AppCompatActivity {
         cardBMIResult = findViewById(R.id.cardBMIResult);
         tvBMIValue = findViewById(R.id.tvBMIValue);
         tvBMICategory = findViewById(R.id.tvBMICategory);
+
+        TextView toolbarTitle = findViewById(R.id.tvToolbarTitle);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText(getString(R.string.bmi_title));
+        }
+        ImageView btnBack = findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
 
         btnBMICalc.setOnClickListener(v -> calculateBMI());
     }

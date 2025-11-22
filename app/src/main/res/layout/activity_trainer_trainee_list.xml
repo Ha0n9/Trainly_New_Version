@@ -5,50 +5,28 @@
     android:orientation="vertical"
     android:background="@color/background_dark">
 
-    <!-- TOP BAR -->
-    <RelativeLayout
+    <include layout="@layout/include_trainer_toolbar" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:background="@color/card_dark">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/user"
-            android:layout_centerVertical="true"
-            android:layout_alignParentStart="true"
-            android:padding="4dp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerTrainerTrainees"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tvEmptyTrainees"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Trainees"
-            android:textColor="@color/text_primary"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
-
-    <!-- RECYCLER VIEW -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerTrainerTrainees"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp"
-        android:clipToPadding="false" />
-
-    <!-- EMPTY STATE -->
-    <TextView
-        android:id="@+id/tvEmptyTrainees"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No trainees yet"
-        android:textColor="@color/text_secondary"
-        android:textSize="16sp"
-        android:layout_gravity="center"
-        android:layout_marginTop="100dp"
-        android:visibility="gone" />
-
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="No trainees yet"
+            android:textColor="@color/text_secondary"
+            android:textSize="16sp"
+            android:visibility="gone" />
+    </LinearLayout>
 </LinearLayout>

@@ -29,6 +29,8 @@ public class TrainerInviteTraineeActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
         trainerId = getIntent().getIntExtra("trainerId", -1);
+        TextView toolbarTitle = findViewById(R.id.tvToolbarTitle);
+        if (toolbarTitle != null) toolbarTitle.setText("Invite Trainee");
         btnBack.setOnClickListener(v -> finish());
         loadAvailableTrainees();
     }

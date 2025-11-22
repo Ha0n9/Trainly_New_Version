@@ -4,51 +4,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_dark"
-    android:orientation="vertical"
-    android:padding="20dp">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvAssignWorkoutTitle"
-        android:layout_width="wrap_content"
+    <include layout="@layout/include_trainee_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="@string/label_assign_workout"
-        android:textColor="@color/text_primary"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:padding="20dp">
 
-    <!-- TRAINEE SELECT -->
-    <Spinner
-        android:id="@+id/spTrainee"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="@string/hint_select_trainee"
-        android:textColor="@color/text_primary"
-        android:textColorHint="@color/text_secondary"
-        android:background="@color/card_dark"
-        android:padding="12dp"
-        android:entries="@array/trainee_list" />
+        <TextView
+            android:id="@+id/tvAssignWorkoutTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="@string/label_assign_workout"
+            android:textColor="@color/text_primary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-    <!-- PLAN SELECT -->
-    <Spinner
-        android:id="@+id/spPlan"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="14dp"
-        android:hint="@string/hint_select_plan"
-        android:textColor="@color/text_primary"
-        android:textColorHint="@color/text_secondary"
-        android:background="@color/card_dark"
-        android:padding="12dp"
-        android:entries="@array/plan_list" />
+        <!-- TRAINEE SELECT -->
+        <Spinner
+            android:id="@+id/spTrainee"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/hint_select_trainee"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:background="@drawable/spinner_background"
+            android:popupBackground="@color/card_dark"
+            android:spinnerMode="dropdown"
+            android:padding="12dp"
+            android:entries="@array/trainee_list" />
 
-    <Button
-        android:id="@+id/btnAssignWorkout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/primary_orange"
-        android:text="@string/btn_assign"
-        android:textColor="@color/background_dark" />
+        <!-- PLAN SELECT -->
+        <Spinner
+            android:id="@+id/spPlan"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="14dp"
+            android:hint="@string/hint_select_plan"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary"
+            android:background="@drawable/spinner_background"
+            android:popupBackground="@color/card_dark"
+            android:spinnerMode="dropdown"
+            android:padding="12dp"
+            android:entries="@array/plan_list" />
+
+        <Button
+            android:id="@+id/btnAssignWorkout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/primary_orange"
+            android:text="@string/btn_assign"
+            android:textColor="@color/background_dark" />
+    </LinearLayout>
 
 </LinearLayout>

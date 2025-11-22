@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -35,6 +37,15 @@ public class TrainerReminderActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
         trainerId = getIntent().getIntExtra("trainer_id", -1);
+
+        TextView toolbarTitle = findViewById(R.id.tvToolbarTitle);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText(getString(R.string.reminder_title));
+        }
+        ImageView btnBack = findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
 
         spTraineeReminder = findViewById(R.id.spTraineeReminder);
         etReminderMessage = findViewById(R.id.etMessageReminder);
@@ -93,10 +104,10 @@ public class TrainerReminderActivity extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
-                android.R.layout.simple_spinner_item,
+                R.layout.spinner_text,
                 traineeNames
         );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown);
         spTraineeReminder.setAdapter(adapter);
     }
 }

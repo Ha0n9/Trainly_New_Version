@@ -3,6 +3,7 @@ package com.example.trainly;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -54,6 +55,8 @@ public class TrainerViewTraineeDetailActivity extends AppCompatActivity {
 
     private void initViews() {
         btnBack = findViewById(R.id.btnBack);
+        TextView toolbarTitle = findViewById(R.id.tvToolbarTitle);
+        if (toolbarTitle != null) toolbarTitle.setText("Trainee Detail");
         tvName = findViewById(R.id.tvTraineeName);
         tvEmail = findViewById(R.id.tvTraineeEmail);
         tvAge = findViewById(R.id.tvTraineeAge);
@@ -73,6 +76,10 @@ public class TrainerViewTraineeDetailActivity extends AppCompatActivity {
         btnAssignWorkout = findViewById(R.id.btnAssignWorkout);
         btnSendReminder = findViewById(R.id.btnSendReminder);
         btnRemoveTrainee = findViewById(R.id.btnRemoveTrainee);
+
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
     }
 
     private void loadTraineeInfo() {
@@ -94,8 +101,23 @@ public class TrainerViewTraineeDetailActivity extends AppCompatActivity {
             // Calculate BMI
             double bmi = weight / ((height / 100) * (height / 100));
             tvBMI.setText(String.format("%.1f", bmi));
+            applyBmiColor(bmi);
         }
         c.close();
+    }
+
+    private void applyBmiColor(double bmi) {
+        String colorHex;
+        if (bmi < 18.5) {
+            colorHex = "#4DA3FF"; // underweight - light blue
+        } else if (bmi < 24.9) {
+            colorHex = "#37D67A"; // normal - green
+        } else if (bmi < 29.9) {
+            colorHex = "#FFC107"; // overweight - yellow
+        } else {
+            colorHex = "#FF5252"; // obese - red
+        }
+        tvBMI.setTextColor(Color.parseColor(colorHex));
     }
 
     private void loadWorkoutStats() {

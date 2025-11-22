@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -16,11 +15,13 @@ public class ClientProfileActivity extends AppCompatActivity {
     TextView tvUserFullname, tvUserRole, tvGreeting;
     TextView tvStatWorkouts, tvStatCalories, tvStatWeight;
     TextView tvNotificationBadge;  // NEW: Badge for notification icon
+    TextView tvInvitationBadge;
 
     ImageView icNotification;  // NEW: Notification bell icon
+    ImageView btnLogout;
 
     CardView cardWorkouts, cardProgress, cardMeals, cardEditProfile, cardBMICalculator,
-            cardWorkoutCalendar, cardChooseTrainer;
+            cardWorkoutCalendar, cardChooseTrainer, cardTrainerInvitations;
 
     DatabaseHelper db;
     int traineeId;
@@ -29,7 +30,6 @@ public class ClientProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_client_profile);
 
         // bind UI
@@ -44,6 +44,8 @@ public class ClientProfileActivity extends AppCompatActivity {
         // NEW: Notification icon + badge
         icNotification = findViewById(R.id.icNotification);
         tvNotificationBadge = findViewById(R.id.tvNotificationBadge);
+        tvInvitationBadge = findViewById(R.id.tvInvitationBadge);
+        btnLogout = findViewById(R.id.btnLogout);
 
         cardWorkouts = findViewById(R.id.cardWorkouts);
         cardProgress = findViewById(R.id.cardProgress);
@@ -52,6 +54,7 @@ public class ClientProfileActivity extends AppCompatActivity {
         cardBMICalculator = findViewById(R.id.cardBMICalculator);
         cardWorkoutCalendar = findViewById(R.id.cardWorkoutCalendar);
         cardChooseTrainer = findViewById(R.id.cardChooseTrainer);
+        cardTrainerInvitations = findViewById(R.id.cardTrainerInvitations);
 
         // get user info
         String name = getIntent().getStringExtra("name");
@@ -79,11 +82,27 @@ public class ClientProfileActivity extends AppCompatActivity {
 
         // NEW: Load notification badge
         loadNotificationBadge();
+        loadInvitationBadge();
 
         // NEW: Notification icon click
         icNotification.setOnClickListener(v -> {
             Intent i = new Intent(this, NotificationActivity.class);
             i.putExtra("user_id", traineeId);
+            startActivity(i);
+        });
+
+        if (btnLogout != null) {
+            btnLogout.setOnClickListener(v -> {
+                Intent i = new Intent(this, LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+                finish();
+            });
+        }
+
+        cardTrainerInvitations.setOnClickListener(v -> {
+            Intent i = new Intent(this, TraineeInvitationsActivity.class);
+            i.putExtra("traineeId", traineeId);
             startActivity(i);
         });
 
@@ -142,12 +161,35 @@ public class ClientProfileActivity extends AppCompatActivity {
         }
     }
 
+    private void loadInvitationBadge() {
+        int pendingInvites = db.getPendingTrainerInvitationsCount(traineeId);
+
+        if (pendingInvites > 0) {
+            tvInvitationBadge.setText(String.valueOf(pendingInvites));
+            tvInvitationBadge.setVisibility(View.VISIBLE);
+        } else {
+            tvInvitationBadge.setVisibility(View.GONE);
+        }
+    }
+
     // NEW: Refresh badge when returning from NotificationActivity
     @Override
     protected void onResume() {
         super.onResume();
         if (db != null && traineeId != 0) {
+            // Reload latest profile info (name/weight/stats) after edits
+            String latestName = db.getUserNameByEmail(email);
+            if (latestName != null) {
+                tvUserFullname.setText(latestName);
+                tvGreeting.setText("Hi, " + latestName.split(" ")[0] + "!");
+            }
+            tvStatWeight.setText(db.getUserWeightByEmail(email) + " kg");
+
+            tvStatWorkouts.setText(String.valueOf(db.getCompletedWorkouts(traineeId)));
+            tvStatCalories.setText(String.valueOf(db.getTotalCalories(traineeId)));
+
             loadNotificationBadge();
+            loadInvitationBadge();
         }
     }
 }

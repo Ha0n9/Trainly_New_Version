@@ -131,10 +131,10 @@ public class AssignWorkoutActivity extends AppCompatActivity {
         // Always set adapter, even if empty
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
-                android.R.layout.simple_spinner_item,
+                R.layout.spinner_text,
                 traineeNames
         );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown);
         if (spTrainee != null) {
             spTrainee.setAdapter(adapter);
         }
@@ -165,10 +165,10 @@ public class AssignWorkoutActivity extends AppCompatActivity {
         // Always set adapter, even if empty
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
-                android.R.layout.simple_spinner_item,
+                R.layout.spinner_text,
                 planTitles
         );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown);
         if (spPlan != null) {
             spPlan.setAdapter(adapter);
         }

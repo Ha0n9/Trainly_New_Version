@@ -317,6 +317,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         );
     }
 
+    // Pending invitations count for badge
+    public int getPendingTrainerInvitationsCount(int traineeId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(
+                "SELECT COUNT(*) FROM trainer_requests WHERE trainee_id=? AND status='pending' AND initiated_by='trainer'",
+                new String[]{String.valueOf(traineeId)}
+        );
+        int count = 0;
+        if (c.moveToFirst()) {
+            count = c.getInt(0);
+        }
+        c.close();
+        return count;
+    }
+
     // Trainer ACCEPT trainee
     public boolean acceptTrainerRequest(int requestId, int trainerId, int traineeId) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -843,7 +858,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int getPendingRequestsCount(int trainerId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(
-                "SELECT COUNT(*) FROM trainer_requests WHERE trainer_id=? AND status='pending'",
+                "SELECT COUNT(*) FROM trainer_requests WHERE trainer_id=? AND status='pending' AND initiated_by='trainee'",
                 new String[]{String.valueOf(trainerId)}
         );
 

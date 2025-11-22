@@ -35,6 +35,11 @@ public class TraineeInvitationsActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
         traineeId = getIntent().getIntExtra("traineeId", -1);
 
+        if (traineeId == -1) {
+            finish();
+            return;
+        }
+
         btnBack.setOnClickListener(v -> finish());
 
         loadInvitations();

@@ -1,10 +1,13 @@
 package com.example.trainly;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.content.Intent;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditClientProfileActivity extends AppCompatActivity {
@@ -19,6 +22,15 @@ public class EditClientProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_client_profile);
+
+        TextView toolbarTitle = findViewById(R.id.tvToolbarTitle);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText(getString(R.string.profile_edit_title));
+        }
+        ImageView btnBack = findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
 
         etName = findViewById(R.id.etName);
         etAge = findViewById(R.id.etAge);

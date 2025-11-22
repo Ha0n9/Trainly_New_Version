@@ -3,6 +3,7 @@ package com.example.trainly;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,15 @@ public class CurrentTrainerActivity extends AppCompatActivity {
         tvName = findViewById(R.id.tvTrainerName);
         tvEmail = findViewById(R.id.tvTrainerEmail);
         btnChange = findViewById(R.id.btnChangeTrainer);
+
+        TextView toolbarTitle = findViewById(R.id.tvToolbarTitle);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText("Your Trainer");
+        }
+        ImageView btnBack = findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
 
         loadTrainer();
 

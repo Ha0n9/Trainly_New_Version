@@ -16,7 +16,7 @@
       android:orientation="vertical"
       android:padding="16dp">
 
-    <!-- TOP BAR: GREETING + NOTIFICATION ICON -->
+    <!-- TOP BAR: GREETING + NOTIFICATION + LOGOUT -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,13 +34,25 @@
           android:layout_alignParentStart="true"
           android:layout_centerVertical="true" />
 
+      <!-- LOGOUT BUTTON -->
+      <ImageView
+          android:id="@+id/btnLogout"
+          android:layout_width="40dp"
+          android:layout_height="40dp"
+          android:layout_alignParentEnd="true"
+          android:layout_centerVertical="true"
+          android:padding="8dp"
+          android:src="@drawable/logout"
+          app:tint="@color/primary_orange" />
+
       <!-- NOTIFICATION ICON WITH BADGE -->
       <FrameLayout
           android:id="@+id/frameNotification"
           android:layout_width="48dp"
           android:layout_height="48dp"
-          android:layout_alignParentEnd="true"
-          android:layout_centerVertical="true">
+          android:layout_centerVertical="true"
+          android:layout_toStartOf="@id/btnLogout"
+          android:layout_marginEnd="8dp">
 
         <ImageView
             android:id="@+id/icNotification"
@@ -450,6 +462,61 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="›"
+            android:textColor="@color/primary_orange"
+            android:textSize="28sp" />
+      </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- TRAINER INVITATIONS -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardTrainerInvitations"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="14dp"
+        android:layout_height="80dp"
+        android:elevation="6dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/card_dark">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="horizontal"
+          android:gravity="center_vertical"
+          android:padding="20dp">
+
+        <ImageView
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/calendar_plus"
+            app:tint="@color/primary_orange" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingStart="12dp"
+            android:text="@string/card_trainer_invitations"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvInvitationBadge"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:background="@drawable/badge_background"
+            android:text="0"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:text="›"
             android:textColor="@color/primary_orange"
             android:textSize="28sp" />

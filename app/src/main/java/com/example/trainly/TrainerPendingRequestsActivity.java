@@ -38,6 +38,9 @@ public class TrainerPendingRequestsActivity extends AppCompatActivity {
         // Lấy trainerId từ Intent
         trainerId = getIntent().getIntExtra("trainerId", -1);
 
+        TextView toolbarTitle = findViewById(R.id.tvToolbarTitle);
+        if (toolbarTitle != null) toolbarTitle.setText("Pending Requests");
+
         if (trainerId == -1) {
             Toast.makeText(this, "Trainer ID not found!", Toast.LENGTH_SHORT).show();
             finish();

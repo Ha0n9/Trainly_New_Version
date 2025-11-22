@@ -1,13 +1,13 @@
 package com.example.trainly;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.database.Cursor;
-import android.widget.Toast;
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,10 +25,18 @@ public class ClientWorkoutsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_client_workouts);
 
         db = new DatabaseHelper(this);
+
+        TextView toolbarTitle = findViewById(R.id.tvToolbarTitle);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText(getString(R.string.workouts_title));
+        }
+        ImageView btnBack = findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
 
         recyclerClientWorkouts = findViewById(R.id.recyclerClientWorkouts);
         workoutList = new ArrayList<>();

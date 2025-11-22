@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -25,7 +24,6 @@ public class TrainerDashboardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_trainer_dashboard);
 
         db = new DatabaseHelper(this);
@@ -102,7 +100,7 @@ public class TrainerDashboardActivity extends AppCompatActivity {
 
     private void loadPendingCount() {
         Cursor c = db.getReadableDatabase().rawQuery(
-                "SELECT COUNT(*) FROM trainer_requests WHERE trainer_id=? AND status='pending'",
+                "SELECT COUNT(*) FROM trainer_requests WHERE trainer_id=? AND status='pending' AND initiated_by='trainee'",
                 new String[]{String.valueOf(trainerId)}
         );
         if (c.moveToFirst()) {

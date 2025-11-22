@@ -3,14 +3,11 @@ package com.example.trainly;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,7 +16,7 @@ import java.util.ArrayList;
 public class TrainerProgressViewActivity extends AppCompatActivity {
 
     RecyclerView recyclerProgress;
-    LinearLayout tvEmpty;  // FIXED: Đổi từ TextView sang LinearLayout
+    LinearLayout tvEmpty;
     TextView tvTotalStats;
     DatabaseHelper db;
     int trainerId = -1;
@@ -29,13 +26,7 @@ public class TrainerProgressViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_trainer_progress_view);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         db = new DatabaseHelper(this);
         trainerId = getIntent().getIntExtra("trainer_id", -1);
@@ -47,7 +38,14 @@ public class TrainerProgressViewActivity extends AppCompatActivity {
         recyclerProgress.setLayoutManager(new LinearLayoutManager(this));
 
         // Back button
-        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+        ImageView btnBack = findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
+        TextView toolbarTitle = findViewById(R.id.tvToolbarTitle);
+        if (toolbarTitle != null) {
+            toolbarTitle.setText("Trainee Progress");
+        }
 
         loadProgress();
     }

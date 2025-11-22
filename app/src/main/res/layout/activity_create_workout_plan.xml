@@ -8,50 +8,58 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvCreateWorkoutPlanTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:text="@string/plan_create_title"
-            android:textColor="@color/text_primary"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+        <include layout="@layout/include_trainer_toolbar" />
 
-        <EditText
-            android:id="@+id/etPlanTitle"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/card_dark"
-            android:hint="@string/plan_title_hint"
-            android:padding="12dp"
-            android:textColor="@color/text_primary"
-            android:textColorHint="@color/text_secondary" />
-
-        <EditText
-            android:id="@+id/etPlanDescription"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:background="@color/card_dark"
-            android:gravity="top"
-            android:minHeight="120dp"
-            android:padding="12dp"
-            android:hint="@string/plan_description_hint"
-            android:textColor="@color/text_primary"
-            android:textColorHint="@color/text_secondary" />
+            android:orientation="vertical"
+            android:padding="20dp">
 
-        <Button
-            android:id="@+id/btnSavePlan"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/primary_orange"
-            android:text="@string/btn_save_plan"
-            android:textColor="@color/background_dark" />
+            <TextView
+                android:id="@+id/tvCreateWorkoutPlanTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="@string/plan_create_title"
+                android:textColor="@color/text_primary"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etPlanTitle"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/card_dark"
+                android:hint="@string/plan_title_hint"
+                android:padding="12dp"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_secondary" />
+
+            <EditText
+                android:id="@+id/etPlanDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@color/card_dark"
+                android:gravity="top"
+                android:minHeight="120dp"
+                android:padding="12dp"
+                android:hint="@string/plan_description_hint"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_secondary" />
+
+            <Button
+                android:id="@+id/btnSavePlan"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/primary_orange"
+                android:text="@string/btn_save_plan"
+                android:textColor="@color/background_dark" />
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

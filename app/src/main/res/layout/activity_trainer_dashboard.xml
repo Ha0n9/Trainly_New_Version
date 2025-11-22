@@ -71,7 +71,7 @@
                 android:id="@+id/btnLogout"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/user"
+                android:src="@drawable/logout"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 app:tint="@color/primary_orange"

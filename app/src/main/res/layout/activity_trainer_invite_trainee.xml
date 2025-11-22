@@ -5,32 +5,7 @@
     android:orientation="vertical"
     android:background="@color/background_dark">
 
-    <!-- TOP BAR -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:background="@color/card_dark">
-
-        <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/user"
-            android:layout_centerVertical="true"
-            android:layout_alignParentStart="true"
-            android:padding="4dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Invite Trainee"
-            android:textColor="@color/text_primary"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_centerInParent="true" />
-
-    </RelativeLayout>
+    <include layout="@layout/include_trainer_toolbar" />
 
     <!-- RECYCLER VIEW -->
     <androidx.recyclerview.widget.RecyclerView
